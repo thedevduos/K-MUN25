@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   ];
 
   const stats = [
-    { icon: Users, label: 'Delegates', value: '500+' },
+    { icon: Users, label: 'Delegates', value: '550+' },
     { icon: Globe, label: 'Countries', value: '50+' },
     { icon: BookOpen, label: 'Committees', value: '15' },
     { icon: Award, label: 'Awards', value: '100+' }
