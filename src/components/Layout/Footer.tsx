@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-blue-400" />
-                <span className="text-gray-300">info@kumaraguruMUN.com</span>
+                <span className="text-gray-300">mun@kct.ac.in</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-blue-400" />
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4 text-blue-400" />
-                <span className="text-gray-300">Kumaraguru College of Technology, Coimbatore</span>
+                <span className="text-gray-300">Kumaraguru Institutions, Coimbatore</span>
               </div>
             </div>
           </div>
@@ -69,13 +69,13 @@ const Footer: React.FC = () => {
 
           {/* Event Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Event Details</h3>
+            <h3 className="text-lg font-semibold mb-4">Campus Location</h3>
             <ul className="space-y-2 text-gray-300">
-              <li>March 15-17, 2025</li>
+              <li>September 27-29, 2025</li>
               <li>Kumaraguru College of Technology</li>
-              <li>500+ Delegates</li>
-              <li>15+ Committees</li>
-              <li>National Participation</li>
+              <li>Chinnavedampatti, Coimbatore</li>
+              <li>Tamil Nadu - 641049</li>
+              <li>Map Link</li>
             </ul>
           </div>
         </div>
