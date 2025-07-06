@@ -43,9 +43,14 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">MUN</span>
-            </div>
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
+  <img
+    src="/path/to/logo.png" // Replace with your actual logo path
+    alt="Logo"
+    className="w-full h-full object-contain"
+  />
+</div>
+
             <span className="text-xl font-bold text-gray-900">Kumaraguru MUN 2025</span>
           </Link>
 
