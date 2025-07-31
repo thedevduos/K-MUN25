@@ -60,7 +60,7 @@ const Home: React.FC = () => {
               <div className="flex flex-wrap justify-center items-center gap-6 text-blue-100 mb-12">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  <span>September 27-29, 2025</span>
+                  <span>September 26-28, 2025</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-5 h-5" />
