@@ -13,6 +13,10 @@ import DelegateGuidelines from './pages/DelegateGuidelines';
 import TermsOfService from './pages/TermsOfService';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+import Error404 from './pages/Error404';
+import Error500 from './pages/Error500';
+import Maintenance from './pages/Maintenance';
+import ErrorBoundary from './components/Common/ErrorBoundary';
 import ParticipantDashboard from './components/Dashboard/ParticipantDashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
 import RegistrationAdminDashboard from './components/Dashboard/RegistrationAdminDashboard';
@@ -73,9 +77,10 @@ const DashboardRouter: React.FC = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
+    <ErrorBoundary>
+      <AuthProvider>
+        <Router>
+          <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Layout><Home /></Layout>} />
           <Route path="/about" element={<Layout><About /></Layout>} />
@@ -147,11 +152,17 @@ function App() {
             } 
           />
 
-          {/* Redirect any unmatched routes to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Error Pages */}
+          <Route path="/404" element={<Error404 />} />
+          <Route path="/500" element={<Error500 />} />
+          <Route path="/maintenance" element={<Maintenance />} />
+          
+          {/* Redirect any unmatched routes to 404 */}
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </Router>
     </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

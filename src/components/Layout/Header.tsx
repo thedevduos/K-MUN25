@@ -42,15 +42,21 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
-  <img
-    src="/path/to/logo.png" // Replace with your actual logo path
-    alt="Logo"
-    className="w-full h-full object-contain"
-  />
-</div>
-
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
+              <img
+                src="/logo.png" // Replace with your actual logo path (supports PNG, JPG)
+                alt="K-MUN 2025 Logo"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  // Fallback to text if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <div className="hidden text-white font-bold text-lg">K</div>
+            </div>
             <span className="text-xl font-bold text-gray-900">Kumaraguru MUN 2025</span>
           </Link>
 

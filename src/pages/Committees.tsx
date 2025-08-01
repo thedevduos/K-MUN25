@@ -94,7 +94,7 @@ const Committees: React.FC = () => {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Committees</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Explore our diverse range of committees tackling crucial global issues
+              Explore our diverse range of committees
             </p>
           </motion.div>
         </div>
