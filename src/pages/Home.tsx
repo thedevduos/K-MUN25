@@ -213,7 +213,7 @@ const Home: React.FC = () => {
               to="/committees"
               className="bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-900 transition-colors"
             >
-              View More
+              View More Info
             </Link>
           </div>
         </div>
@@ -248,7 +248,7 @@ const Home: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Shape the Future?
+              Ready to be part of K-MUN'2025?
             </h2>
             <p className="text-xl text-blue-100 mb-8">
               Join Kumaraguru MUN 2025 and be part of an unforgettable diplomatic experience. 
