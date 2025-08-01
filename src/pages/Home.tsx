@@ -55,7 +55,7 @@ const Home: React.FC = () => {
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8">
-                "Diplomacy in Action: Shaping Tomorrow's World"
+                "Empowering Voices, Embracing change !"
               </p>
               <div className="flex flex-wrap justify-center items-center gap-6 text-blue-100 mb-12">
                 <div className="flex items-center gap-2">
@@ -248,7 +248,7 @@ const Home: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to be part of K-MUN'2025?
+              Ready to be part of K-MUN' 2025?
             </h2>
             <p className="text-xl text-blue-100 mb-8">
               Join Kumaraguru MUN 2025 and be part of an unforgettable diplomatic experience. 
