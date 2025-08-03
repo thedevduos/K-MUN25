@@ -20,7 +20,7 @@ const Resources: React.FC = () => {
     { id: 'guides', label: 'Background Guides' },
     { id: 'rules', label: 'Rules & Procedures' },
     { id: 'templates', label: 'Templates' },
-    { id: 'videos', label: 'Training Videos' }
+    { id: 'videos', label: 'Videos' }
   ];
 
   const resources = [
@@ -89,6 +89,72 @@ const Resources: React.FC = () => {
       uploadDate: '2024-12-07',
       downloads: 167,
       url: '/resources/resolution-template.docx'
+    },
+    {
+      id: 7,
+      title: 'HRC Background Guide',
+      description: 'Human Rights Council committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.3 MB',
+      uploadDate: '2024-12-14',
+      downloads: 112,
+      url: '/resources/hrc-bg.pdf'
+    },
+    {
+      id: 8,
+      title: 'ICJ Background Guide',
+      description: 'International Court of Justice committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.0 MB',
+      uploadDate: '2024-12-13',
+      downloads: 98,
+      url: '/resources/icj-bg.pdf'
+    },
+    {
+      id: 9,
+      title: 'WHO Background Guide',
+      description: 'World Health Organization committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.2 MB',
+      uploadDate: '2024-12-12',
+      downloads: 145,
+      url: '/resources/who-bg.pdf'
+    },
+    {
+      id: 10,
+      title: 'GA1 Background Guide',
+      description: 'General Assembly First Committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.1 MB',
+      uploadDate: '2024-12-11',
+      downloads: 134,
+      url: '/resources/ga1-bg.pdf'
+    },
+    {
+      id: 11,
+      title: 'Delegate Guidelines',
+      description: 'Comprehensive guidelines for delegates participating in K-MUN 2025',
+      type: 'rules',
+      format: 'PDF',
+      size: '1.5 MB',
+      uploadDate: '2024-12-09',
+      downloads: 203,
+      url: '/resources/delegate-guidelines.pdf'
+    },
+    {
+      id: 12,
+      title: 'Event Brochure',
+      description: 'Official event brochure with complete information about K-MUN 2025',
+      type: 'templates',
+      format: 'PDF',
+      size: '3.2 MB',
+      uploadDate: '2024-12-06',
+      downloads: 89,
+      url: '/resources/event-brochure.pdf'
     }
   ];
 
@@ -117,9 +183,11 @@ const Resources: React.FC = () => {
     // Implement download logic
   };
 
-  const handlePreview = (resource: any) => {
-    console.log('Previewing:', resource.title);
-    // Implement preview logic
+  const handleWatch = (resource: any) => {
+    // Open video URL in new tab
+    if (resource.type === 'videos' && resource.url) {
+      window.open(resource.url, '_blank');
+    }
   };
 
   return (
@@ -135,7 +203,7 @@ const Resources: React.FC = () => {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Resources</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Access all the essential documents, guides, and materials for Kumaraguru MUN 2025
+              Access all the essential documents, guides, and videos
             </p>
           </motion.div>
         </div>
@@ -211,20 +279,23 @@ const Resources: React.FC = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <button
-                      onClick={() => handlePreview(resource)}
-                      className="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <Eye className="w-4 h-4" />
-                      Preview
-                    </button>
-                    <button
-                      onClick={() => handleDownload(resource)}
-                      className="flex-1 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download
-                    </button>
+                    {resource.type === 'videos' ? (
+                      <button
+                        onClick={() => handleWatch(resource)}
+                        className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <Video className="w-4 h-4" />
+                        Watch
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleDownload(resource)}
+                        className="w-full bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </button>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -257,52 +328,23 @@ const Resources: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex justify-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
+              className="bg-white rounded-lg shadow-lg p-6 text-center max-w-md"
             >
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Document Request</h3>
               <p className="text-gray-600 mb-4">Need a specific document that's not available?</p>
-              <button className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">
+              <button 
+                onClick={() => window.location.href = '/contact#message'}
+                className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors"
+              >
                 Request Document
-              </button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
-            >
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Training Materials</h3>
-              <p className="text-gray-600 mb-4">Access additional training resources and guides</p>
-              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                View Training
-              </button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
-            >
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Video className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Video Tutorials</h3>
-              <p className="text-gray-600 mb-4">Watch step-by-step video guides and tutorials</p>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                Watch Videos
               </button>
             </motion.div>
           </div>

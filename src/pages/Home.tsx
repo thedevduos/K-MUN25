@@ -188,7 +188,7 @@ const Home: React.FC = () => {
               Featured Committees
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore our diverse range of committees, each tackling crucial global issues 
+              Explore our diverse range of committees 
               with authentic UN procedures and expert guidance.
             </p>
           </motion.div>
