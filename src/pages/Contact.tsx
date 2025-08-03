@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@kumaraguruMUN.com', 'registration@kumaraguruMUN.com'],
+      details: ['mun@kct.ac.in', 'registration@kumaraguruMUN.com'],
       color: 'text-blue-600'
     },
     {
