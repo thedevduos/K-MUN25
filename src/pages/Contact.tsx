@@ -5,7 +5,6 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  Clock,
   Send,
   User,
   MessageSquare,
@@ -64,38 +63,9 @@ const Contact: React.FC = () => {
       title: 'Address',
       details: ['Kumaraguru College of Technology', 'Chinnavedampatti, Coimbatore - 641049', 'Tamil Nadu, India'],
       color: 'text-purple-600'
-    },
-    {
-      icon: Clock,
-      title: 'Office Hours',
-      details: ['Monday - Friday: 9:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 1:00 PM', 'Sunday: Closed'],
-      color: 'text-orange-600'
     }
   ];
-
-  const team = [
-    {
-      name: 'Dr. Rajesh Kumar',
-      position: 'Faculty Coordinator',
-      email: 'rajesh.kumar@kct.ac.in',
-      phone: '+91 9876543210',
-      image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    },
-    {
-      name: 'Priya Sharma',
-      position: 'Secretary General',
-      email: 'sg@kumaraguruMUN.com',
-      phone: '+91 9876543211',
-      image: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    },
-    {
-      name: 'Arjun Patel',
-      position: 'Deputy Secretary General',
-      email: 'dsg@kumaraguruMUN.com',
-      phone: '+91 9876543212',
-      image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    }
-  ];
+  
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,7 +80,7 @@ const Contact: React.FC = () => {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Get in touch with us for any queries about Kumaraguru MUN 2025
+              Get in touch with us for any queries. We're here to help!
             </p>
           </motion.div>
         </div>
@@ -119,20 +89,9 @@ const Contact: React.FC = () => {
       {/* Contact Information */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Get in Touch
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              We're here to help with any questions about registration, committees, or the conference
-            </p>
-          </motion.div>
+          
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {contactInfo.map((info, index) => (
               <motion.div
                 key={info.title}
@@ -154,13 +113,13 @@ const Contact: React.FC = () => {
             ))}
           </div>
 
-          {/* Contact Form and Map */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <div className="flex justify-center">
             {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-lg shadow-lg p-8"
+              className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl mx-auto"
             >
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
               
@@ -243,11 +202,12 @@ const Contact: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">Select a subject</option>
+                    <option value="general">General Query</option>
                     <option value="registration">Registration Query</option>
                     <option value="committees">Committee Information</option>
                     <option value="payment">Payment Issues</option>
-                    <option value="accommodation">Accommodation</option>
-                    <option value="general">General Inquiry</option>
+                    <option value="document-request">Document Request</option>
+                    <option value="technology-assistance">Technology Assistance</option>
                     <option value="other">Other</option>
                   </select>
                   {errors.subject && (
@@ -289,77 +249,6 @@ const Contact: React.FC = () => {
                 </button>
               </form>
             </motion.div>
-
-            {/* Map */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
-            >
-              <div className="h-full min-h-[500px] bg-gray-200 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-gray-700 mb-2">Campus Location</h3>
-                  <p className="text-gray-600">Kumaraguru College of Technology</p>
-                  <p className="text-gray-600">Chinnavedampatti, Coimbatore</p>
-                  <p className="text-gray-600">Tamil Nadu - 641049</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Meet Our Team
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Get in touch with our organizing team for specific queries
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-              >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
-                  <p className="text-blue-800 font-medium mb-4">{member.position}</p>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-gray-400" />
-                      <a href={`mailto:${member.email}`} className="text-gray-600 hover:text-blue-800 transition-colors">
-                        {member.email}
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-gray-400" />
-                      <a href={`tel:${member.phone}`} className="text-gray-600 hover:text-blue-800 transition-colors">
-                        {member.phone}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>

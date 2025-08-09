@@ -40,9 +40,9 @@ const About: React.FC = () => {
             className="text-center"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">About Us</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Discover the legacy of excellence
-            </p>
+             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+               Discover the legacy of excellence
+             </p>
           </motion.div>
         </div>
       </section>
@@ -72,7 +72,7 @@ const About: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-6 h-6 text-blue-800" />
-                  <span className="text-gray-700">Kumaraguru College of Technology, Coimbatore</span>
+                   <span className="text-gray-700">Kumaraguru Institutions, Coimbatore</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Users className="w-6 h-6 text-blue-800" />

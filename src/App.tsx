@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
@@ -76,10 +76,19 @@ const DashboardRouter: React.FC = () => {
 };
 
 function App() {
+  const ScrollToTop: React.FC = () => {
+    const { pathname } = useLocation();
+    React.useEffect(() => {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }, [pathname]);
+    return null;
+  };
+
   return (
     <ErrorBoundary>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Layout><Home /></Layout>} />

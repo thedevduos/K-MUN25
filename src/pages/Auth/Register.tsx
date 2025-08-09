@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Header from '../../components/Layout/Header';
 import { useForm } from 'react-hook-form';
 import { 
   User, 
@@ -116,24 +117,23 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+      <Header />
+      <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
           <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-800 to-blue-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">MUN</span>
+            <div className="w-12 h-12 rounded-xl overflow-hidden bg-white">
+              <img src="/logo.png" alt="K-MUN 2025 Logo" className="w-full h-full object-contain" />
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Register for Kumaraguru MUN 2025
           </h1>
-          <p className="text-gray-600">
-            Join the most prestigious Model United Nations conference in South India
-          </p>
+          <p className="text-gray-600">Empowering Voices, Embracing change !</p>
         </motion.div>
 
         {/* Progress Bar */}
@@ -152,7 +152,7 @@ const Register: React.FC = () => {
                 </div>
                 {i < 3 && (
                   <div
-                    className={`w-12 h-1 ${
+                    className={`w-24 h-1 ${
                       i < step ? 'bg-blue-800' : 'bg-gray-200'
                     }`}
                   />
@@ -161,7 +161,7 @@ const Register: React.FC = () => {
             ))}
           </div>
           <div className="flex justify-center mt-2">
-            <div className="flex space-x-16 text-sm text-gray-600">
+            <div className="flex space-x-24 text-sm text-gray-600">
               <span className={step >= 1 ? 'text-blue-800 font-medium' : ''}>
                 Personal Info
               </span>
@@ -189,7 +189,7 @@ const Register: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name *
+                      First Name <span className="text-red-600">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -206,7 +206,7 @@ const Register: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name *
+                      Last Name <span className="text-red-600">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -225,7 +225,7 @@ const Register: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      Email Address <span className="text-red-600">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -249,7 +249,7 @@ const Register: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number *
+                      Phone Number <span className="text-red-600">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -269,7 +269,7 @@ const Register: React.FC = () => {
                 {/* Gender */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Gender *
+                    Gender <span className="text-red-600">*</span>
                   </label>
                   <div className="flex gap-4">
                     <label className="flex items-center">
@@ -277,7 +277,7 @@ const Register: React.FC = () => {
                         {...register('gender', { required: 'Gender is required' })}
                         type="radio"
                         value="male"
-                        className="mr-2"
+                        className="mr-2 accent-blue-800"
                       />
                       Male
                     </label>
@@ -286,7 +286,7 @@ const Register: React.FC = () => {
                         {...register('gender', { required: 'Gender is required' })}
                         type="radio"
                         value="female"
-                        className="mr-2"
+                        className="mr-2 accent-blue-800"
                       />
                       Female
                     </label>
@@ -299,7 +299,7 @@ const Register: React.FC = () => {
                 {/* Kumaraguru Institution Question */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Are you from Kumaraguru Institutions? *
+                    Are you from Kumaraguru Institutions? <span className="text-red-600">*</span>
                   </label>
                   <div className="flex gap-4">
                     <label className="flex items-center">
@@ -307,7 +307,7 @@ const Register: React.FC = () => {
                         {...register('isKumaraguru', { required: 'This field is required' })}
                         type="radio"
                         value="yes"
-                        className="mr-2"
+                        className="mr-2 accent-blue-800"
                       />
                       Yes
                     </label>
@@ -316,7 +316,7 @@ const Register: React.FC = () => {
                         {...register('isKumaraguru', { required: 'This field is required' })}
                         type="radio"
                         value="no"
-                        className="mr-2"
+                        className="mr-2 accent-blue-800"
                       />
                       No
                     </label>
@@ -330,7 +330,7 @@ const Register: React.FC = () => {
                 {isKumaraguru === 'yes' && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Roll Number *
+                      Roll Number <span className="text-red-600">*</span>
                     </label>
                     <input
                       {...register('rollNumber', { required: 'Roll number is required' })}
@@ -347,7 +347,7 @@ const Register: React.FC = () => {
                   <div className="space-y-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Type of Institution *
+                        Type of Institution <span className="text-red-600">*</span>
                       </label>
                       <select
                         {...register('institutionType', { required: 'Institution type is required' })}
@@ -365,7 +365,7 @@ const Register: React.FC = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Institution *
+                        Institution <span className="text-red-600">*</span>
                       </label>
                       <div className="relative">
                         <input
@@ -382,7 +382,7 @@ const Register: React.FC = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Grade/Year *
+                        Grade/Year <span className="text-red-600">*</span>
                       </label>
                       <div className="relative">
                         <select
@@ -415,7 +415,7 @@ const Register: React.FC = () => {
                 {/* Total MUNs */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Total number of MUNs attended *
+                    Total number of MUNs attended <span className="text-red-600">*</span>
                   </label>
                   <select
                     {...register('totalMuns', { required: 'This field is required' })}
@@ -455,7 +455,7 @@ const Register: React.FC = () => {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Committee Preference {num} *
+                            Committee Preference {num} <span className="text-red-600">*</span>
                           </label>
                           <select
                             {...register(`committeePreference${num}` as keyof RegistrationForm, {
@@ -479,7 +479,7 @@ const Register: React.FC = () => {
 
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Portfolio Preference {num} *
+                            Portfolio Preference {num} <span className="text-red-600">*</span>
                           </label>
                           <select
                             {...register(`portfolioPreference${num}` as keyof RegistrationForm, {
@@ -517,7 +517,7 @@ const Register: React.FC = () => {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Student ID / Company ID / Aadhar Card *
+                    Student ID / Company ID / Aadhar Card <span className="text-red-600">*</span>
                   </label>
                   <p className="text-sm text-gray-600 mb-4">
                     Upload a clear photo of your ID for verification.
@@ -662,7 +662,7 @@ const Register: React.FC = () => {
 
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600">
-            Already have an account?{' '}
+            Already registered?{' '}
             <Link to="/login" className="text-blue-800 hover:text-blue-900 font-medium">
               Sign in here
             </Link>

@@ -45,14 +45,18 @@ const Header: React.FC = () => {
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
               <img
-                src="/logo.png" // Replace with your actual logo path (supports PNG, JPG)
+                src="/logo.png"
                 alt="K-MUN 2025 Logo"
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  // Fallback to text if image fails to load
                   const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                  target.nextElementSibling?.classList.remove('hidden');
+                  if (!target.dataset.fallback) {
+                    target.dataset.fallback = 'jpg';
+                    target.src = '/logo.jpg';
+                  } else {
+                    target.style.display = 'none';
+                    target.nextElementSibling?.classList.remove('hidden');
+                  }
                 }}
               />
               <div className="hidden text-white font-bold text-lg">K</div>
@@ -64,6 +68,9 @@ const Header: React.FC = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-700 hover:text-blue-800 transition-colors">
               Home
+            </Link>
+            <Link to="/about" className="text-gray-700 hover:text-blue-800 transition-colors">
+              About
             </Link>
             <Link to="/committees" className="text-gray-700 hover:text-blue-800 transition-colors">
               Committees
@@ -161,6 +168,13 @@ const Header: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
+              </Link>
+              <Link
+                to="/about"
+                className="text-gray-700 hover:text-blue-800 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
               </Link>
               <Link
                 to="/committees"
