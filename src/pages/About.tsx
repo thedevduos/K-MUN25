@@ -67,19 +67,19 @@ const About: React.FC = () => {
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-6 h-6 text-blue-800" />
+                  <Calendar className="w-6 h-6 text-primary-900" />
                   <span className="text-gray-700">March 15-17, 2025</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <MapPin className="w-6 h-6 text-blue-800" />
+                  <MapPin className="w-6 h-6 text-primary-900" />
                    <span className="text-gray-700">Kumaraguru Institutions, Coimbatore</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Users className="w-6 h-6 text-blue-800" />
+                  <Users className="w-6 h-6 text-primary-900" />
                   <span className="text-gray-700">500+ Expected Delegates</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <BookOpen className="w-6 h-6 text-blue-800" />
+                  <BookOpen className="w-6 h-6 text-primary-900" />
                   <span className="text-gray-700">15+ Specialized Committees</span>
                 </div>
               </div>
@@ -213,7 +213,7 @@ const About: React.FC = () => {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-800 text-white rounded-full mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-900 text-white rounded-full mb-4">
                   <stat.icon className="w-8 h-8" />
                 </div>
                 <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>

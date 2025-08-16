@@ -84,7 +84,7 @@ const Committees: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
+      <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white py-20">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -93,7 +93,7 @@ const Committees: React.FC = () => {
             className="text-center"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Committees</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-primary-100 max-w-3xl mx-auto">
               Explore our diverse range of committees
             </p>
           </motion.div>
@@ -118,7 +118,7 @@ const Committees: React.FC = () => {
                       <div className="text-4xl">{committee.logo}</div>
                       <div>
                         <h3 className="text-xl font-bold text-gray-900">{committee.name}</h3>
-                        <p className="text-blue-800 font-medium">({committee.shortName})</p>
+                        <p className="text-primary-900 font-medium">({committee.shortName})</p>
                       </div>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${getLevelColor(committee.level)}`}>
@@ -149,7 +149,7 @@ const Committees: React.FC = () => {
                         <span>{committee.level}</span>
                       </div>
                     </div>
-                    <button className="flex items-center gap-2 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">
+                    <button className="flex items-center gap-2 bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors">
                       <Download className="w-4 h-4" />
                       Background Guide
                     </button>

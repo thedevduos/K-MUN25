@@ -155,6 +155,50 @@ const Resources: React.FC = () => {
       uploadDate: '2024-12-06',
       downloads: 89,
       url: '/resources/event-brochure.pdf'
+    },
+    {
+      id: 13,
+      title: 'GA2 Background Guide',
+      description: 'General Assembly Second Committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.0 MB',
+      uploadDate: '2024-12-10',
+      downloads: 87,
+      url: '/resources/ga2-bg.pdf'
+    },
+    {
+      id: 14,
+      title: 'GA3 Background Guide',
+      description: 'General Assembly Third Committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.1 MB',
+      uploadDate: '2024-12-09',
+      downloads: 92,
+      url: '/resources/ga3-bg.pdf'
+    },
+    {
+      id: 15,
+      title: 'GA4 Background Guide',
+      description: 'General Assembly Fourth Committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.2 MB',
+      uploadDate: '2024-12-08',
+      downloads: 78,
+      url: '/resources/ga4-bg.pdf'
+    },
+    {
+      id: 16,
+      title: 'GA6 Background Guide',
+      description: 'General Assembly Sixth Committee background guide',
+      type: 'guides',
+      format: 'PDF',
+      size: '2.0 MB',
+      uploadDate: '2024-12-07',
+      downloads: 85,
+      url: '/resources/ga6-bg.pdf'
     }
   ];
 
@@ -193,7 +237,7 @@ const Resources: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
+      <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white py-20">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -202,7 +246,7 @@ const Resources: React.FC = () => {
             className="text-center"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Resources</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-primary-100 max-w-3xl mx-auto">
               Access all the essential documents, guides, and videos
             </p>
           </motion.div>
@@ -221,7 +265,7 @@ const Resources: React.FC = () => {
                 placeholder="Search resources..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
 
@@ -233,7 +277,7 @@ const Resources: React.FC = () => {
                   onClick={() => setActiveFilter(filter.id)}
                   className={`px-4 py-2 rounded-full font-medium transition-colors ${
                     activeFilter === filter.id
-                      ? 'bg-blue-800 text-white'
+                      ? 'bg-primary-900 text-white'
                       : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
                   }`}
                 >
@@ -282,7 +326,7 @@ const Resources: React.FC = () => {
                     {resource.type === 'videos' ? (
                       <button
                         onClick={() => handleWatch(resource)}
-                        className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
+                        className="w-full bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors flex items-center justify-center gap-2"
                       >
                         <Video className="w-4 h-4" />
                         Watch
@@ -290,7 +334,7 @@ const Resources: React.FC = () => {
                     ) : (
                       <button
                         onClick={() => handleDownload(resource)}
-                        className="w-full bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors flex items-center justify-center gap-2"
+                        className="w-full bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors flex items-center justify-center gap-2"
                       >
                         <Download className="w-4 h-4" />
                         Download
@@ -335,14 +379,14 @@ const Resources: React.FC = () => {
               transition={{ delay: 0.1 }}
               className="bg-white rounded-lg shadow-lg p-6 text-center max-w-md"
             >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-8 h-8 text-primary-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Document Request</h3>
               <p className="text-gray-600 mb-4">Need a specific document that's not available?</p>
               <button 
                 onClick={() => window.location.href = '/contact#message'}
-                className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors"
+                className="bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors"
               >
                 Request Document
               </button>

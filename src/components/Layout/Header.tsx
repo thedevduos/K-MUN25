@@ -63,30 +63,32 @@ const Header: React.FC = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-primary-900 transition-colors">
-              Home
-            </Link>
-            <Link to="/about" className="text-gray-700 hover:text-primary-900 transition-colors">
-              About
-            </Link>
-            <Link to="/committees" className="text-gray-700 hover:text-primary-900 transition-colors">
-              Committees
-            </Link>
-            <Link to="/resources" className="text-gray-700 hover:text-primary-900 transition-colors">
-              Resources
-            </Link>
-            <Link to="/gallery" className="text-gray-700 hover:text-primary-900 transition-colors">
-              Gallery
-            </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-primary-900 transition-colors">
-              Contact
-            </Link>
-          </nav>
+          {/* Right Side - Navigation and Auth */}
+          <div className="hidden md:flex items-center space-x-8">
+            {/* Desktop Navigation */}
+            <nav className="flex items-center space-x-8">
+              <Link to="/" className="text-gray-700 hover:text-primary-900 transition-colors">
+                Home
+              </Link>
+              <Link to="/about" className="text-gray-700 hover:text-primary-900 transition-colors">
+                About
+              </Link>
+              <Link to="/committees" className="text-gray-700 hover:text-primary-900 transition-colors">
+                Committees
+              </Link>
+              <Link to="/resources" className="text-gray-700 hover:text-primary-900 transition-colors">
+                Resources
+              </Link>
+              <Link to="/gallery" className="text-gray-700 hover:text-primary-900 transition-colors">
+                Gallery
+              </Link>
+              <Link to="/contact" className="text-gray-700 hover:text-primary-900 transition-colors">
+                Contact
+              </Link>
+            </nav>
 
-          {/* Auth Section */}
-          <div className="hidden md:flex items-center space-x-4">
+            {/* Auth Section */}
+            <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <div className="relative">
                 <button
@@ -142,8 +144,9 @@ const Header: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
 
-          {/* Mobile menu button */}
+        {/* Mobile menu button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden p-2 rounded-lg hover:bg-gray-100"

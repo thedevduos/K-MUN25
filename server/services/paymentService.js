@@ -4,14 +4,28 @@ import { prisma } from '../config/database.js';
 
 class PaymentService {
   constructor() {
-    this.razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
-    });
+    // Check if Razorpay credentials are available
+    if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+      this.razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+      });
+      this.isConfigured = true;
+    } else {
+      console.warn('⚠️ Razorpay credentials not configured. Payment features will be disabled.');
+      this.isConfigured = false;
+    }
   }
 
   async createOrder(amount, currency = 'INR', receipt, notes = {}) {
     try {
+      if (!this.isConfigured) {
+        return { 
+          success: false, 
+          error: 'Razorpay is not configured. Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to your environment variables.' 
+        };
+      }
+
       const options = {
         amount: amount * 100, // Razorpay expects amount in paise
         currency,
@@ -29,6 +43,13 @@ class PaymentService {
 
   async verifyPayment(razorpayOrderId, razorpayPaymentId, razorpaySignature) {
     try {
+      if (!this.isConfigured) {
+        return { 
+          success: false, 
+          error: 'Razorpay is not configured. Please add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to your environment variables.' 
+        };
+      }
+
       const body = razorpayOrderId + '|' + razorpayPaymentId;
       const expectedSignature = crypto
         .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
