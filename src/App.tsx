@@ -100,8 +100,8 @@ function App() {
           <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
           <Route path="/delegate-guidelines" element={<Layout><DelegateGuidelines /></Layout>} />
           <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Layout><Login /></Layout>} />
+          <Route path="/register" element={<Layout><Register /></Layout>} />
           
           {/* Protected Routes */}
           <Route 
@@ -162,12 +162,12 @@ function App() {
           />
 
           {/* Error Pages */}
-          <Route path="/404" element={<Error404 />} />
-          <Route path="/500" element={<Error500 />} />
-          <Route path="/maintenance" element={<Maintenance />} />
+          <Route path="/404" element={<Layout><Error404 /></Layout>} />
+          <Route path="/500" element={<Layout><Error500 /></Layout>} />
+          <Route path="/maintenance" element={<Layout><Maintenance /></Layout>} />
           
           {/* Redirect any unmatched routes to 404 */}
-          <Route path="*" element={<Error404 />} />
+          <Route path="*" element={<Layout><Error404 /></Layout>} />
         </Routes>
       </Router>
     </AuthProvider>

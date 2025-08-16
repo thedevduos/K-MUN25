@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
           {/* Logo, Description & Social Media */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-primary-400 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">MUN</span>
               </div>
               <span className="text-xl font-bold">Kumaraguru MUN 2025</span>
@@ -25,15 +25,15 @@ const Footer: React.FC = () => {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4 text-blue-400" />
+                <Mail className="w-4 h-4 text-primary-400" />
                 <span className="text-gray-300">mun@kct.ac.in</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4 text-blue-400" />
+                <Phone className="w-4 h-4 text-primary-400" />
                 <span className="text-gray-300">+91 422 2669000</span>
               </div>
               <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4 text-blue-400" />
+                <MapPin className="w-4 h-4 text-primary-400" />
                 <span className="text-gray-300">Kumaraguru Institutions, Coimbatore</span>
               </div>
             </div>

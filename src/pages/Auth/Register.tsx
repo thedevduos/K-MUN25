@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Header from '../../components/Layout/Header';
 import { useForm } from 'react-hook-form';
 import { 
   User, 
@@ -93,7 +92,7 @@ const Register: React.FC = () => {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center py-12 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -117,8 +116,7 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-      <Header />
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100">
       <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -144,7 +142,7 @@ const Register: React.FC = () => {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
                     i <= step
-                      ? 'bg-blue-800 text-white'
+                      ? 'bg-primary-900 text-white'
                       : 'bg-gray-200 text-gray-500'
                   }`}
                 >
@@ -152,8 +150,8 @@ const Register: React.FC = () => {
                 </div>
                 {i < 3 && (
                   <div
-                    className={`w-24 h-1 ${
-                      i < step ? 'bg-blue-800' : 'bg-gray-200'
+                    className={`w-32 h-1 ${
+                      i < step ? 'bg-primary-900' : 'bg-gray-200'
                     }`}
                   />
                 )}
@@ -161,14 +159,14 @@ const Register: React.FC = () => {
             ))}
           </div>
           <div className="flex justify-center mt-2">
-            <div className="flex space-x-24 text-sm text-gray-600">
-              <span className={step >= 1 ? 'text-blue-800 font-medium' : ''}>
+            <div className="flex space-x-32 text-sm text-gray-600">
+              <span className={step >= 1 ? 'text-primary-900 font-medium' : ''}>
                 Personal Info
               </span>
-              <span className={step >= 2 ? 'text-blue-800 font-medium' : ''}>
+              <span className={step >= 2 ? 'text-primary-900 font-medium' : ''}>
                 Preferences
               </span>
-              <span className={step >= 3 ? 'text-blue-800 font-medium' : ''}>
+              <span className={step >= 3 ? 'text-primary-900 font-medium' : ''}>
                 Documents
               </span>
             </div>
@@ -271,24 +269,24 @@ const Register: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Gender <span className="text-red-600">*</span>
                   </label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center">
+                  <div className="flex gap-6">
+                    <label className="flex items-center cursor-pointer">
                       <input
                         {...register('gender', { required: 'Gender is required' })}
                         type="radio"
                         value="male"
-                        className="mr-2 accent-blue-800"
+                        className="w-4 h-4 text-blue-800 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                       />
-                      Male
+                      <span className="ml-2 text-sm font-medium text-gray-700">Male</span>
                     </label>
-                    <label className="flex items-center">
+                    <label className="flex items-center cursor-pointer">
                       <input
                         {...register('gender', { required: 'Gender is required' })}
                         type="radio"
                         value="female"
-                        className="mr-2 accent-blue-800"
+                        className="w-4 h-4 text-blue-800 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                       />
-                      Female
+                      <span className="ml-2 text-sm font-medium text-gray-700">Female</span>
                     </label>
                   </div>
                   {errors.gender && (
@@ -301,24 +299,24 @@ const Register: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Are you from Kumaraguru Institutions? <span className="text-red-600">*</span>
                   </label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center">
+                  <div className="flex gap-6">
+                    <label className="flex items-center cursor-pointer">
                       <input
                         {...register('isKumaraguru', { required: 'This field is required' })}
                         type="radio"
                         value="yes"
-                        className="mr-2 accent-blue-800"
+                        className="w-4 h-4 text-blue-800 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                       />
-                      Yes
+                      <span className="ml-2 text-sm font-medium text-gray-700">Yes</span>
                     </label>
-                    <label className="flex items-center">
+                    <label className="flex items-center cursor-pointer">
                       <input
                         {...register('isKumaraguru', { required: 'This field is required' })}
                         type="radio"
                         value="no"
-                        className="mr-2 accent-blue-800"
+                        className="w-4 h-4 text-blue-800 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                       />
-                      No
+                      <span className="ml-2 text-sm font-medium text-gray-700">No</span>
                     </label>
                   </div>
                   {errors.isKumaraguru && (

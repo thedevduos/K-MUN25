@@ -42,8 +42,8 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
+          <Link to="/" className="flex items-center">
+            <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
               <img
                 src="/logo.png"
                 alt="K-MUN 2025 Logo"
@@ -59,29 +59,28 @@ const Header: React.FC = () => {
                   }
                 }}
               />
-              <div className="hidden text-white font-bold text-lg">K</div>
+              <div className="hidden text-gray-900 font-bold text-lg">K</div>
             </div>
-            <span className="text-xl font-bold text-gray-900">Kumaraguru MUN 2025</span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-blue-800 transition-colors">
+            <Link to="/" className="text-gray-700 hover:text-primary-900 transition-colors">
               Home
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-blue-800 transition-colors">
+            <Link to="/about" className="text-gray-700 hover:text-primary-900 transition-colors">
               About
             </Link>
-            <Link to="/committees" className="text-gray-700 hover:text-blue-800 transition-colors">
+            <Link to="/committees" className="text-gray-700 hover:text-primary-900 transition-colors">
               Committees
             </Link>
-            <Link to="/resources" className="text-gray-700 hover:text-blue-800 transition-colors">
+            <Link to="/resources" className="text-gray-700 hover:text-primary-900 transition-colors">
               Resources
             </Link>
-            <Link to="/gallery" className="text-gray-700 hover:text-blue-800 transition-colors">
+            <Link to="/gallery" className="text-gray-700 hover:text-primary-900 transition-colors">
               Gallery
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-blue-800 transition-colors">
+            <Link to="/contact" className="text-gray-700 hover:text-primary-900 transition-colors">
               Contact
             </Link>
           </nav>
@@ -94,7 +93,7 @@ const Header: React.FC = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center space-x-2 bg-gray-100 rounded-full px-3 py-2 hover:bg-gray-200 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-primary-900 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-medium">
                       {user?.name.charAt(0).toUpperCase()}
                     </span>
@@ -130,13 +129,13 @@ const Header: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="text-blue-800 hover:text-blue-900 font-medium transition-colors"
+                  className="text-primary-900 hover:text-primary-950 font-medium transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors"
+                  className="bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors"
                 >
                   Register
                 </Link>
@@ -164,42 +163,42 @@ const Header: React.FC = () => {
             <div className="flex flex-col space-y-4">
               <Link
                 to="/"
-                className="text-gray-700 hover:text-blue-800 transition-colors"
+                className="text-gray-700 hover:text-primary-900 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 to="/about"
-                className="text-gray-700 hover:text-blue-800 transition-colors"
+                className="text-gray-700 hover:text-primary-900 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 to="/committees"
-                className="text-gray-700 hover:text-blue-800 transition-colors"
+                className="text-gray-700 hover:text-primary-900 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Committees
               </Link>
               <Link
                 to="/resources"
-                className="text-gray-700 hover:text-blue-800 transition-colors"
+                className="text-gray-700 hover:text-primary-900 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Resources
               </Link>
               <Link
                 to="/gallery"
-                className="text-gray-700 hover:text-blue-800 transition-colors"
+                className="text-gray-700 hover:text-primary-900 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Gallery
               </Link>
               <Link
                 to="/contact"
-                className="text-gray-700 hover:text-blue-800 transition-colors"
+                className="text-gray-700 hover:text-primary-900 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
@@ -208,7 +207,7 @@ const Header: React.FC = () => {
               {isAuthenticated ? (
                 <div className="pt-4 border-t border-gray-200">
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-primary-900 rounded-full flex items-center justify-center">
                       <span className="text-white font-medium">
                         {user?.name.charAt(0).toUpperCase()}
                       </span>
@@ -220,14 +219,14 @@ const Header: React.FC = () => {
                   </div>
                   <Link
                     to={getDashboardLink()}
-                    className="block text-gray-700 hover:text-blue-800 transition-colors mb-2"
+                    className="block text-gray-700 hover:text-primary-900 transition-colors mb-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="block text-gray-700 hover:text-blue-800 transition-colors"
+                    className="block text-gray-700 hover:text-primary-900 transition-colors"
                   >
                     Logout
                   </button>

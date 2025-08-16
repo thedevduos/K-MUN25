@@ -31,7 +31,7 @@ const About: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
+      <section className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white py-20">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -40,7 +40,7 @@ const About: React.FC = () => {
             className="text-center"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">About Us</h1>
-             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+             <p className="text-xl text-primary-100 max-w-3xl mx-auto">
                Discover the legacy of excellence
              </p>
           </motion.div>
@@ -298,7 +298,7 @@ const About: React.FC = () => {
               href="https://kumaraguru.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-900 transition-colors inline-flex items-center"
+              className="bg-primary-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-950 transition-colors inline-flex items-center"
             >
               View More
             </a>
