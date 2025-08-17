@@ -65,7 +65,7 @@ const Home: React.FC = () => {
                 KUMARAGURU MODEL UNITED NATIONS
               </h1>
               <div className="text-2xl md:text-3xl font-bold mb-6">
-                26, 27 & 28 SEPTEMBER
+                26, 27 & 28 SEPTEMBER 2025
               </div>
               <p className="text-lg md:text-xl mb-8 text-white/90">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
