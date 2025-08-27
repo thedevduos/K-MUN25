@@ -10,9 +10,7 @@ import {
   User,
   MessageSquare,
   CheckCircle
-  CheckCircle
 } from 'lucide-react';
-import LoadingSpinner from '../components/Common/LoadingSpinner';
 import LoadingSpinner from '../components/Common/LoadingSpinner';
 
 interface ContactForm {
@@ -26,8 +24,6 @@ interface ContactForm {
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -39,8 +35,6 @@ const Contact: React.FC = () => {
   const onSubmit = async (data: ContactForm) => {
     const loadingToast = toast.loading('Sending message...');
     setLoading(true);
-    const loadingToast = toast.loading('Sending message...');
-    setLoading(true);
     console.log('Contact Form Data:', data);
     
     // Simulate API call
@@ -48,13 +42,8 @@ const Contact: React.FC = () => {
     
     toast.success('Message sent successfully! We\'ll get back to you soon.', { id: loadingToast });
     setSubmitted(true);
-    toast.success('Message sent successfully! We\'ll get back to you soon.', { id: loadingToast });
-    setSubmitted(true);
     setLoading(false);
     reset();
-    
-    // Reset success message after 3 seconds
-    setTimeout(() => setSubmitted(false), 3000);
     
     // Reset success message after 3 seconds
     setTimeout(() => setSubmitted(false), 3000);
@@ -80,7 +69,6 @@ const Contact: React.FC = () => {
       color: 'text-purple-600'
     }
   ];
-  
 
   return (
     <div className="min-h-screen bg-white">
@@ -104,8 +92,6 @@ const Contact: React.FC = () => {
       {/* Contact Information */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {contactInfo.map((info, index) => (
               <motion.div
@@ -130,7 +116,6 @@ const Contact: React.FC = () => {
 
           {/* Contact Form */}
           <div className="flex justify-center">
-            {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -138,17 +123,6 @@ const Contact: React.FC = () => {
             >
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
               
-              {submitted && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 flex items-center gap-2"
-                >
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-green-700">Message sent successfully! We'll get back to you soon.</span>
-                </motion.div>
-              )}
-
               {submitted && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -262,7 +236,6 @@ const Contact: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  disabled={loading}
                   className="w-full bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
@@ -272,17 +245,8 @@ const Contact: React.FC = () => {
                     </>
                   ) : (
                     <>
-                  {loading ? (
-                    <>
-                      <LoadingSpinner size="sm" color="white" />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
                       <Send className="w-5 h-5" />
                       Send Message
-                    </>
-                  )}
                     </>
                   )}
                 </button>

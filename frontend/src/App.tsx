@@ -112,87 +112,87 @@ function App() {
         <Router>
           <ScrollToTop />
           <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Layout><Home /></Layout>} />
-          <Route path="/about" element={<Layout><About /></Layout>} />
-          <Route path="/committees" element={<Layout><Committees /></Layout>} />
-          <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
-          <Route path="/contact" element={<Layout><Contact /></Layout>} />
-          <Route path="/resources" element={<Layout><Resources /></Layout>} />
-          <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
-          <Route path="/delegate-guidelines" element={<Layout><DelegateGuidelines /></Layout>} />
-          <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
-          <Route path="/login" element={<Layout><Login /></Layout>} />
-          <Route path="/register" element={<Layout><Register /></Layout>} />
-          
-          {/* Protected Routes */}
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute>
-                <DashboardRouter />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/participant" 
-            element={
-              <ProtectedRoute allowedRoles={['participant']}>
-                <ParticipantDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/admin" 
-            element={
-              <ProtectedRoute allowedRoles={['software-admin', 'super-admin']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/registration" 
-            element={
-              <ProtectedRoute allowedRoles={['registration-admin']}>
-                <RegistrationAdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/hospitality" 
-            element={
-              <ProtectedRoute allowedRoles={['hospitality-admin']}>
-                <HospitalityAdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/allocation" 
-            element={
-              <ProtectedRoute allowedRoles={['allocation-admin']}>
-                <AllocationAdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/executive" 
-            element={
-              <ProtectedRoute allowedRoles={['executive-board']}>
-                <ExecutiveBoardDashboard />
-              </ProtectedRoute>
-            } 
-          />
+            {/* Public Routes */}
+            <Route path="/" element={<Layout><Home /></Layout>} />
+            <Route path="/about" element={<Layout><About /></Layout>} />
+            <Route path="/committees" element={<Layout><Committees /></Layout>} />
+            <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
+            <Route path="/contact" element={<Layout><Contact /></Layout>} />
+            <Route path="/resources" element={<Layout><Resources /></Layout>} />
+            <Route path="/privacy-policy" element={<Layout><PrivacyPolicy /></Layout>} />
+            <Route path="/delegate-guidelines" element={<Layout><DelegateGuidelines /></Layout>} />
+            <Route path="/terms-of-service" element={<Layout><TermsOfService /></Layout>} />
+            <Route path="/login" element={<Layout><Login /></Layout>} />
+            <Route path="/register" element={<Layout><Register /></Layout>} />
+            
+            {/* Protected Routes */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <DashboardRouter />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/participant" 
+              element={
+                <ProtectedRoute allowedRoles={['participant']}>
+                  <ParticipantDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/admin" 
+              element={
+                <ProtectedRoute allowedRoles={['software-admin', 'super-admin']}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/registration" 
+              element={
+                <ProtectedRoute allowedRoles={['registration-admin']}>
+                  <RegistrationAdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/hospitality" 
+              element={
+                <ProtectedRoute allowedRoles={['hospitality-admin']}>
+                  <HospitalityAdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/allocation" 
+              element={
+                <ProtectedRoute allowedRoles={['allocation-admin']}>
+                  <AllocationAdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/executive" 
+              element={
+                <ProtectedRoute allowedRoles={['executive-board']}>
+                  <ExecutiveBoardDashboard />
+                </ProtectedRoute>
+              } 
+            />
 
-          {/* Error Pages */}
-          <Route path="/404" element={<Layout><Error404 /></Layout>} />
-          <Route path="/500" element={<Layout><Error500 /></Layout>} />
-          <Route path="/maintenance" element={<Layout><Maintenance /></Layout>} />
-          
-          {/* Redirect any unmatched routes to 404 */}
-          <Route path="*" element={<Layout><Error404 /></Layout>} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+            {/* Error Pages */}
+            <Route path="/404" element={<Layout><Error404 /></Layout>} />
+            <Route path="/500" element={<Layout><Error500 /></Layout>} />
+            <Route path="/maintenance" element={<Layout><Maintenance /></Layout>} />
+            
+            {/* Redirect any unmatched routes to 404 */}
+            <Route path="*" element={<Layout><Error404 /></Layout>} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

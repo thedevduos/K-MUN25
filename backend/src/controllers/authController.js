@@ -22,24 +22,6 @@ const generateUserId = async () => {
   return userId;
 };
 
-// Generate KMUN25xxx user ID
-const generateUserId = async () => {
-  let userId;
-  let isUnique = false;
-  
-  while (!isUnique) {
-    const randomNum = Math.floor(Math.random() * 900) + 100; // 100-999
-    userId = `KMUN25${randomNum}`;
-    
-    // Check if this ID already exists
-    const existingUser = await User.findOne({ where: { userId } });
-    if (!existingUser) {
-      isUnique = true;
-    }
-  }
-  
-  return userId;
-};
 class AuthController {
   async register(req, res) {
     try {
@@ -60,11 +42,8 @@ class AuthController {
       // Generate unique user ID
       const userId = await generateUserId();
 
-      // Generate unique user ID
-      const userId = await generateUserId();
       // Create user
       const user = await User.create({
-        userId,
         userId,
         firstName,
         lastName,
