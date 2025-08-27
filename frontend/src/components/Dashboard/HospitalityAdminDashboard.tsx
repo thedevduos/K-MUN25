@@ -154,7 +154,7 @@ const HospitalityAdminDashboard: React.FC = () => {
                         }}
                       />
                     </div>
-                     placeholder="Enter User ID (e.g., KMUN25001)"
+                    <button
                       onClick={() => {
                         const input = document.querySelector('input[placeholder*="User ID"]') as HTMLInputElement;
                         if (input?.value) {

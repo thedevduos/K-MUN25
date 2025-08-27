@@ -19,7 +19,6 @@ import Register from './pages/Auth/Register';
 import Error404 from './pages/Error404';
 import Error500 from './pages/Error500';
 import Maintenance from './pages/Maintenance';
-import ErrorBoundary from './components/Common/ErrorBoundary';
 import ParticipantDashboard from './components/Dashboard/ParticipantDashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
 import RegistrationAdminDashboard from './components/Dashboard/RegistrationAdminDashboard';
