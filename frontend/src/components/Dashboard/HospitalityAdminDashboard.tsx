@@ -32,7 +32,7 @@ const HospitalityAdminDashboard: React.FC = () => {
 
   const participants = [
     { 
-      id: 'MUN001', 
+      id: 'KMUN25001', 
       name: 'John Smith', 
       email: 'john@university.edu', 
       institution: 'Harvard University',
@@ -46,7 +46,7 @@ const HospitalityAdminDashboard: React.FC = () => {
       checkOutFrequency: 0
     },
     { 
-      id: 'MUN002', 
+      id: 'KMUN25002', 
       name: 'Sarah Johnson', 
       email: 'sarah@college.edu', 
       institution: 'MIT',
@@ -154,7 +154,7 @@ const HospitalityAdminDashboard: React.FC = () => {
                         }}
                       />
                     </div>
-                    <button 
+                     placeholder="Enter User ID (e.g., KMUN25001)"
                       onClick={() => {
                         const input = document.querySelector('input[placeholder*="User ID"]') as HTMLInputElement;
                         if (input?.value) {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { 
   Mail, 
@@ -10,6 +11,7 @@ import {
   MessageSquare,
   CheckCircle
 } from 'lucide-react';
+import LoadingSpinner from '../components/Common/LoadingSpinner';
 
 interface ContactForm {
   name: string;
@@ -31,12 +33,14 @@ const Contact: React.FC = () => {
   } = useForm<ContactForm>();
 
   const onSubmit = async (data: ContactForm) => {
+    const loadingToast = toast.loading('Sending message...');
     setLoading(true);
     console.log('Contact Form Data:', data);
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
+    toast.success('Message sent successfully! We\'ll get back to you soon.', { id: loadingToast });
     setSubmitted(true);
     setLoading(false);
     reset();
@@ -239,7 +243,10 @@ const Contact: React.FC = () => {
                   className="w-full bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <>
+                      <LoadingSpinner size="sm" color="white" />
+                      <span>Sending...</span>
+                    </>
                   ) : (
                     <>
                       <Send className="w-5 h-5" />

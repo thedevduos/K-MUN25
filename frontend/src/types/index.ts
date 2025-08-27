@@ -1,5 +1,6 @@
 export interface User {
   id: string;
+  userId?: string; // KMUN25xxx format
   name: string;
   email: string;
   phone: string;

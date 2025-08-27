@@ -20,26 +20,6 @@ const Header: React.FC = () => {
     if (!user) return '/';
     
     switch (user.role) {
-      case 'participant':
-        return '/dashboard/participant';
-      case 'software-admin':
-        return '/dashboard/admin';
-      case 'registration-admin':
-        return '/dashboard/registration';
-      case 'hospitality-admin':
-        return '/dashboard/hospitality';
-      case 'allocation-admin':
-        return '/dashboard/allocation';
-      case 'executive-board':
-        return '/dashboard/executive';
-      default:
-        return '/dashboard/participant';
-    }
-  };
-
-  return (
-    <header className="bg-white/95 backdrop-blur-sm shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
@@ -84,7 +64,6 @@ const Header: React.FC = () => {
               </Link>
               <Link to="/contact" className="text-gray-700 hover:text-primary-900 transition-colors">
                 Contact
-              </Link>
             </nav>
 
             {/* Auth Section */}

@@ -3,6 +3,24 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../config/database.js';
 import { User } from '../models/index.js';
 
+// Generate KMUN25xxx user ID
+const generateUserId = async () => {
+  let userId;
+  let isUnique = false;
+  
+  while (!isUnique) {
+    const randomNum = Math.floor(Math.random() * 900) + 100; // 100-999
+    userId = `KMUN25${randomNum}`;
+    
+    // Check if this ID already exists
+    const existingUser = await User.findOne({ where: { userId } });
+    if (!existingUser) {
+      isUnique = true;
+    }
+  }
+  
+  return userId;
+};
 class AuthController {
   async register(req, res) {
     try {
@@ -20,8 +38,11 @@ class AuthController {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 12);
 
+      // Generate unique user ID
+      const userId = await generateUserId();
       // Create user
       const user = await User.create({
+        userId,
         firstName,
         lastName,
         email,

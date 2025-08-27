@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { User, UserRole } from '../types';
 
 interface AuthContextType {
@@ -111,6 +112,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
+    const loadingToast = toast.loading('Signing in...');
+    
     // Mock authentication with new password format
     const foundUser = mockUsers.find(u => u.email === email);
     if (foundUser) {
@@ -121,10 +124,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (password === expectedPassword || password === 'demo123') {
         setUser(foundUser);
         localStorage.setItem('munUser', JSON.stringify(foundUser));
+        toast.success('Login successful!', { id: loadingToast });
       } else {
+        toast.error('Invalid credentials', { id: loadingToast });
         throw new Error('Invalid credentials');
       }
     } else {
+      toast.error('Invalid credentials', { id: loadingToast });
       throw new Error('Invalid credentials');
     }
   };
@@ -132,6 +138,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     localStorage.removeItem('munUser');
+    toast.success('Logged out successfully');
   };
 
   const value = {

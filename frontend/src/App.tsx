@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
@@ -23,6 +24,7 @@ import RegistrationAdminDashboard from './components/Dashboard/RegistrationAdmin
 import HospitalityAdminDashboard from './components/Dashboard/HospitalityAdminDashboard';
 import AllocationAdminDashboard from './components/Dashboard/AllocationAdminDashboard';
 import ExecutiveBoardDashboard from './components/Dashboard/ExecutiveBoardDashboard';
+import PageLoader from './components/Common/PageLoader';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: string[] }> = ({ 
@@ -33,9 +35,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-900"></div>
-      </div>
+      <PageLoader message="Checking authentication..." />
     );
   }
 
@@ -87,6 +87,28 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+            success: {
+              duration: 3000,
+              style: {
+                background: '#10b981',
+              },
+            },
+            error: {
+              duration: 5000,
+              style: {
+                background: '#ef4444',
+              },
+            },
+          }}
+        />
         <Router>
           <ScrollToTop />
           <Routes>

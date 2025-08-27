@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { 
   User, 
@@ -11,8 +12,10 @@ import {
   Upload,
   Check,
   AlertCircle,
-  Users
+  Users,
+  Copy
 } from 'lucide-react';
+import LoadingSpinner from '../../components/Common/LoadingSpinner';
 
 interface RegistrationForm {
   firstName: string;
@@ -67,16 +70,26 @@ const Register: React.FC = () => {
   };
 
   const onSubmit = async (data: RegistrationForm) => {
+    const loadingToast = toast.loading('Submitting registration...');
+    
     console.log('Registration Data:', data);
-    setSubmitted(true);
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
+    // Generate user ID
+    const userId = `KMUN25${String(Math.floor(Math.random() * 900) + 100)}`;
+    
+    toast.success('Registration submitted successfully!', { id: loadingToast });
+    setSubmitted(true);
+    
     // Navigate to success page or login
     setTimeout(() => {
+      toast.success(`Your User ID is ${userId}. Please save it for future reference.`, {
+        duration: 8000,
+      });
       navigate('/login');
-    }, 2000);
+    }, 3000);
   };
 
   const nextStep = async () => {
@@ -105,6 +118,24 @@ const Register: React.FC = () => {
           <p className="text-gray-600 mb-6">
             Thank you for registering for Kumaraguru MUN 2025. You will receive a confirmation email shortly.
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <p className="text-sm font-medium text-blue-900 mb-2">Your User ID:</p>
+            <div className="flex items-center justify-center space-x-2">
+              <code className="text-lg font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded">
+                KMUN25{String(Math.floor(Math.random() * 900) + 100)}
+              </code>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`KMUN25${String(Math.floor(Math.random() * 900) + 100)}`);
+                  toast.success('User ID copied to clipboard!');
+                }}
+                className="p-1 text-blue-600 hover:text-blue-800"
+              >
+                <Copy className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs text-blue-700 mt-2">Please save this ID for check-in/check-out</p>
+          </div>
           <div className="space-y-2 text-sm text-gray-500">
             <p>• Check your email for confirmation</p>
             <p>• Complete payment to secure your spot</p>
@@ -649,9 +680,17 @@ const Register: React.FC = () => {
               {step === 3 && (
                 <button
                   type="submit"
+                  disabled={loading}
                   className="ml-auto px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
                 >
-                  Submit Registration
+                  {loading ? (
+                    <div className="flex items-center">
+                      <LoadingSpinner size="sm" color="white" />
+                      <span className="ml-2">Submitting...</span>
+                    </div>
+                  ) : (
+                    'Submit Registration'
+                  )}
                 </button>
               )}
             </div>
