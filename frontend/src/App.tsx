@@ -19,12 +19,14 @@ import Register from './pages/Auth/Register';
 import Error404 from './pages/Error404';
 import Error500 from './pages/Error500';
 import Maintenance from './pages/Maintenance';
-import ParticipantDashboard from './components/Dashboard/ParticipantDashboard';
-import AdminDashboard from './components/Dashboard/AdminDashboard';
-import RegistrationAdminDashboard from './components/Dashboard/RegistrationAdminDashboard';
+
+// Dashboard Components
+import DelegateDashboard from './components/Dashboard/DelegateDashboard';
+import DevAdminDashboard from './components/Dashboard/DevAdminDashboard';
+import DelegateAffairsDashboard from './components/Dashboard/DelegateAffairsDashboard';
+import FrontDeskAdminDashboard from './components/Dashboard/FrontDeskAdminDashboard';
+import CommitteeDirectorDashboard from './components/Dashboard/CommitteeDirectorDashboard';
 import HospitalityAdminDashboard from './components/Dashboard/HospitalityAdminDashboard';
-import AllocationAdminDashboard from './components/Dashboard/AllocationAdminDashboard';
-import ExecutiveBoardDashboard from './components/Dashboard/ExecutiveBoardDashboard';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: string[] }> = ({ 
@@ -57,21 +59,20 @@ const DashboardRouter: React.FC = () => {
   if (!user) return <Navigate to="/login" replace />;
 
   switch (user.role) {
-    case 'participant':
-      return <ParticipantDashboard />;
-    case 'software-admin':
-    case 'super-admin':
-      return <AdminDashboard />;
-    case 'registration-admin':
-      return <RegistrationAdminDashboard />;
-    case 'hospitality-admin':
+    case 'DELEGATE':
+      return <DelegateDashboard />;
+    case 'DEV_ADMIN':
+      return <DevAdminDashboard />;
+    case 'DELEGATE_AFFAIRS':
+      return <DelegateAffairsDashboard />;
+    case 'FRONT_DESK_ADMIN':
+      return <FrontDeskAdminDashboard />;
+    case 'COMMITTEE_DIRECTOR':
+      return <CommitteeDirectorDashboard />;
+    case 'HOSPITALITY_ADMIN':
       return <HospitalityAdminDashboard />;
-    case 'allocation-admin':
-      return <AllocationAdminDashboard />;
-    case 'executive-board':
-      return <ExecutiveBoardDashboard />;
     default:
-      return <ParticipantDashboard />;
+      return <DelegateDashboard />;
   }
 };
 
@@ -134,51 +135,53 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+
+            {/* Role-specific dashboard routes */}
             <Route 
-              path="/dashboard/participant" 
+              path="/dashboard/delegate" 
               element={
-                <ProtectedRoute allowedRoles={['participant']}>
-                  <ParticipantDashboard />
+                <ProtectedRoute allowedRoles={['DELEGATE']}>
+                  <DelegateDashboard />
                 </ProtectedRoute>
               } 
             />
             <Route 
-              path="/dashboard/admin" 
+              path="/dashboard/dev-admin" 
               element={
-                <ProtectedRoute allowedRoles={['software-admin', 'super-admin']}>
-                  <AdminDashboard />
+                <ProtectedRoute allowedRoles={['DEV_ADMIN']}>
+                  <DevAdminDashboard />
                 </ProtectedRoute>
               } 
             />
             <Route 
-              path="/dashboard/registration" 
+              path="/dashboard/delegate-affairs" 
               element={
-                <ProtectedRoute allowedRoles={['registration-admin']}>
-                  <RegistrationAdminDashboard />
+                <ProtectedRoute allowedRoles={['DELEGATE_AFFAIRS']}>
+                  <DelegateAffairsDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/front-desk" 
+              element={
+                <ProtectedRoute allowedRoles={['FRONT_DESK_ADMIN']}>
+                  <FrontDeskAdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/committee-director" 
+              element={
+                <ProtectedRoute allowedRoles={['COMMITTEE_DIRECTOR']}>
+                  <CommitteeDirectorDashboard />
                 </ProtectedRoute>
               } 
             />
             <Route 
               path="/dashboard/hospitality" 
               element={
-                <ProtectedRoute allowedRoles={['hospitality-admin']}>
+                <ProtectedRoute allowedRoles={['HOSPITALITY_ADMIN']}>
                   <HospitalityAdminDashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/dashboard/allocation" 
-              element={
-                <ProtectedRoute allowedRoles={['allocation-admin']}>
-                  <AllocationAdminDashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/dashboard/executive" 
-              element={
-                <ProtectedRoute allowedRoles={['executive-board']}>
-                  <ExecutiveBoardDashboard />
                 </ProtectedRoute>
               } 
             />

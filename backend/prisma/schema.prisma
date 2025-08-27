@@ -7,17 +7,20 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:admin@localhost:5432/kumaraguru_mun"
 }
 
 model User {
   id                String   @id @default(uuid())
+  userId            String   @unique // KMUN25xxx format
   firstName         String
   lastName          String
   email             String   @unique
   password          String
   phone             String?
-  role              UserRole @default(PARTICIPANT)
+  role              UserRole @default(DELEGATE)
+  institution       String?
+  grade             String?
   profileImage      String?
   isActive          Boolean  @default(true)
   lastLogin         DateTime?
@@ -32,8 +35,19 @@ model User {
   sentNotifications Notification[] @relation("SentNotifications")
   receivedNotifications NotificationRecipient[]
   createdCommittees Committee[] @relation("CreatedBy")
+  directedCommittees Committee[] @relation("DirectedBy")
   createdEvents     Event[] @relation("CreatedBy")
   uploadedResources Resource[] @relation("UploadedBy")
+  accommodationBookings AccommodationBooking[]
+  roomAllocations   RoomAllocation[]
+  attendances       Attendance[]
+  marks             Marks[]
+  createdPopups     Popup[] @relation("CreatedBy")
+  updatedPricing    PricingConfig[] @relation("UpdatedBy")
+  markedCheckIns    CheckIn[] @relation("MarkedBy")
+  markedAttendances Attendance[] @relation("MarkedBy")
+  uploadedMarks     Marks[] @relation("UploadedBy")
+  allocatedRooms    RoomAllocation[] @relation("AllocatedBy")
 
   @@map("users")
 }
@@ -61,15 +75,16 @@ model Registration {
   idDocument            String
   munResume             String?
   status                RegistrationStatus @default(PENDING)
-  allocatedCommittee    String?
-  allocatedPortfolio    String?
+  allocatedCommitteeId  String?
+  allocatedPortfolioId  String?
   paymentStatus         PaymentStatus @default(PENDING)
   submittedAt           DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
   // Relations
   user                  User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  allocation            Allocation?
+  allocatedCommittee    Committee? @relation("AllocatedCommittee", fields: [allocatedCommitteeId], references: [id])
+  allocatedPortfolio    Portfolio? @relation("AllocatedPortfolio", fields: [allocatedPortfolioId], references: [id])
 
   @@map("registrations")
 }
@@ -83,6 +98,7 @@ model Committee {
   description     String
   backgroundGuide String?
   logo            String?
+  directorId      String?
   isActive        Boolean  @default(true)
   createdBy       String
   createdAt       DateTime @default(now())
@@ -90,8 +106,12 @@ model Committee {
 
   // Relations
   creator         User @relation("CreatedBy", fields: [createdBy], references: [id])
+  director        User? @relation("DirectedBy", fields: [directorId], references: [id])
   portfolios      Portfolio[]
-  allocations     Allocation[]
+  allocatedRegistrations Registration[] @relation("AllocatedCommittee")
+  events          Event[]
+  attendances     Attendance[]
+  marks           Marks[]
 
   @@map("committees")
 }
@@ -101,31 +121,16 @@ model Portfolio {
   committeeId String
   name        String
   isAllocated Boolean  @default(false)
+  allocatedTo String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   // Relations
   committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Cascade)
-  allocations Allocation[]
+  allocatedRegistrations Registration[] @relation("AllocatedPortfolio")
 
   @@unique([committeeId, name])
   @@map("portfolios")
-}
-
-model Allocation {
-  id             String   @id @default(uuid())
-  registrationId String   @unique
-  committeeId    String
-  portfolioId    String
-  allocatedBy    String
-  allocatedAt    DateTime @default(now())
-
-  // Relations
-  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
-  committee      Committee @relation(fields: [committeeId], references: [id])
-  portfolio      Portfolio @relation(fields: [portfolioId], references: [id])
-
-  @@map("allocations")
 }
 
 model Payment {
@@ -154,6 +159,7 @@ model CheckIn {
   userId      String
   type        CheckInType
   status      CheckInStatus
+  kitReceived Boolean     @default(false)
   markedBy    String
   markedAt    DateTime    @default(now())
   location    String?
@@ -161,8 +167,123 @@ model CheckIn {
 
   // Relations
   user        User @relation(fields: [userId], references: [id])
+  marker      User @relation("MarkedBy", fields: [markedBy], references: [id])
 
   @@map("check_ins")
+}
+
+model Room {
+  id                String   @id @default(uuid())
+  roomNumber        String   @unique
+  roomType          RoomType
+  capacity          Int
+  currentOccupancy  Int      @default(0)
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  allocations       RoomAllocation[]
+
+  @@map("rooms")
+}
+
+model RoomAllocation {
+  id            String   @id @default(uuid())
+  userId        String
+  roomId        String
+  checkInDate   DateTime
+  checkOutDate  DateTime
+  status        AllocationStatus @default(BOOKED)
+  allocatedBy   String
+  allocatedAt   DateTime @default(now())
+
+  // Relations
+  user          User @relation(fields: [userId], references: [id])
+  room          Room @relation(fields: [roomId], references: [id])
+  allocatedByUser User @relation("AllocatedBy", fields: [allocatedBy], references: [id])
+
+  @@map("room_allocations")
+}
+
+model AccommodationBooking {
+  id              String   @id @default(uuid())
+  userId          String
+  checkInDate     DateTime
+  checkOutDate    DateTime
+  roomPreference  RoomType
+  specialRequests String?
+  status          BookingStatus @default(PENDING)
+  totalAmount     Decimal  @db.Decimal(10, 2)
+  paymentStatus   PaymentStatus @default(PENDING)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User @relation(fields: [userId], references: [id])
+
+  @@map("accommodation_bookings")
+}
+
+model Event {
+  id          String      @id @default(uuid())
+  name        String
+  description String?
+  date        DateTime
+  startTime   String
+  endTime     String
+  committeeId String?
+  status      EventStatus @default(SCHEDULED)
+  createdBy   String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  creator     User @relation("CreatedBy", fields: [createdBy], references: [id])
+  committee   Committee? @relation(fields: [committeeId], references: [id])
+  attendances Attendance[]
+  marks       Marks[]
+
+  @@map("events")
+}
+
+model Attendance {
+  id          String   @id @default(uuid())
+  userId      String
+  eventId     String
+  committeeId String
+  status      AttendanceStatus
+  markedBy    String
+  markedAt    DateTime @default(now())
+  notes       String?
+
+  // Relations
+  user        User @relation(fields: [userId], references: [id])
+  event       Event @relation(fields: [eventId], references: [id])
+  committee   Committee @relation(fields: [committeeId], references: [id])
+  marker      User @relation("MarkedBy", fields: [markedBy], references: [id])
+
+  @@map("attendances")
+}
+
+model Marks {
+  id          String   @id @default(uuid())
+  userId      String
+  committeeId String
+  eventId     String
+  marks       Int
+  maxMarks    Int      @default(100)
+  feedback    String?
+  uploadedBy  String
+  uploadedAt  DateTime @default(now())
+
+  // Relations
+  user        User @relation(fields: [userId], references: [id])
+  committee   Committee @relation(fields: [committeeId], references: [id])
+  event       Event @relation(fields: [eventId], references: [id])
+  uploader    User @relation("UploadedBy", fields: [uploadedBy], references: [id])
+
+  @@map("marks")
 }
 
 model ContactSubmission {
@@ -187,6 +308,7 @@ model Notification {
   type            NotificationType
   priority        NotificationPriority @default(NORMAL)
   targetAudience  TargetAudience
+  targetRoles     UserRole[] @default([])
   specificUsers   String[] @default([])
   sentBy          String
   sentAt          DateTime @default(now())
@@ -214,22 +336,25 @@ model NotificationRecipient {
   @@map("notification_recipients")
 }
 
-model Event {
-  id          String      @id @default(uuid())
-  name        String
-  description String?
-  date        DateTime
-  startTime   String
-  endTime     String
-  status      EventStatus @default(SCHEDULED)
-  createdBy   String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+model Popup {
+  id              String   @id @default(uuid())
+  title           String
+  content         String
+  type            NotificationType
+  targetAudience  TargetAudience
+  targetRoles     UserRole[] @default([])
+  specificUsers   String[] @default([])
+  isActive        Boolean  @default(true)
+  startDate       DateTime
+  endDate         DateTime
+  createdBy       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   // Relations
-  creator     User @relation("CreatedBy", fields: [createdBy], references: [id])
+  creator         User @relation("CreatedBy", fields: [createdBy], references: [id])
 
-  @@map("events")
+  @@map("popups")
 }
 
 model Resource {
@@ -265,29 +390,31 @@ model ActivityLog {
   @@map("activity_logs")
 }
 
-model EmailTemplate {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  subject     String
-  htmlContent String
-  textContent String?
-  variables   String[] @default([])
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model PricingConfig {
+  id                  String   @id @default(uuid())
+  internalDelegate    Decimal  @db.Decimal(10, 2)
+  externalDelegate    Decimal  @db.Decimal(10, 2)
+  accommodationCharge Decimal  @db.Decimal(10, 2)
+  currency            String   @default("INR")
+  isActive            Boolean  @default(true)
+  updatedBy           String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
-  @@map("email_templates")
+  // Relations
+  updater             User @relation("UpdatedBy", fields: [updatedBy], references: [id])
+
+  @@map("pricing_configs")
 }
 
 // Enums
 enum UserRole {
-  PARTICIPANT
-  EXECUTIVE_BOARD
-  SOFTWARE_ADMIN
-  REGISTRATION_ADMIN
+  DELEGATE
+  DEV_ADMIN
+  DELEGATE_AFFAIRS
+  FRONT_DESK_ADMIN
+  COMMITTEE_DIRECTOR
   HOSPITALITY_ADMIN
-  ALLOCATION_ADMIN
-  SUPER_ADMIN
 }
 
 enum Gender {
@@ -332,6 +459,39 @@ enum CheckInStatus {
   CHECKED_OUT
 }
 
+enum RoomType {
+  SINGLE
+  DOUBLE
+  TRIPLE
+  QUAD
+}
+
+enum AllocationStatus {
+  BOOKED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum EventStatus {
+  SCHEDULED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
 enum ContactStatus {
   PENDING
   IN_PROGRESS
@@ -354,18 +514,8 @@ enum NotificationPriority {
 
 enum TargetAudience {
   ALL
-  PAID
-  UNPAID
-  ALLOCATED
-  UNALLOCATED
-  SPECIFIC
-}
-
-enum EventStatus {
-  SCHEDULED
-  ACTIVE
-  COMPLETED
-  CANCELLED
+  ROLE_SPECIFIC
+  SPECIFIC_USERS
 }
 
 enum ResourceType {

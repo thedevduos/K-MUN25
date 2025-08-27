@@ -35,12 +35,12 @@ const Login: React.FC = () => {
   };
 
   const demoAccounts = [
-    { email: 'participant@mun.com', role: 'Participant', password: 'IamJohn1!@#' },
-    { email: 'admin@mun.com', role: 'Software Admin', password: 'IamSoftware1!@#' },
-    { email: 'registration@mun.com', role: 'Registration Admin', password: 'IamRegistration1!@#' },
-    { email: 'hospitality@mun.com', role: 'Hospitality Admin', password: 'IamHospitality1!@#' },
-    { email: 'allocation@mun.com', role: 'Allocation Admin', password: 'IamAllocation1!@#' },
-    { email: 'executive@mun.com', role: 'Executive Board', password: 'IamExecutive1!@#' }
+    { email: 'delegate@mun.com', role: 'Delegate', password: 'IamJohn1!@#' },
+    { email: 'dev@mun.com', role: 'Dev Admin', password: 'IamDev1!@#' },
+    { email: 'affairs@mun.com', role: 'Delegate Affairs', password: 'IamDelegate1!@#' },
+    { email: 'frontdesk@mun.com', role: 'Front Desk Admin', password: 'IamFront1!@#' },
+    { email: 'director@mun.com', role: 'Committee Director', password: 'IamCommittee1!@#' },
+    { email: 'hospitality@mun.com', role: 'Hospitality Admin', password: 'IamHospitality1!@#' }
   ];
 
   return (
