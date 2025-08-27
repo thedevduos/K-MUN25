@@ -21,10 +21,12 @@ import {
   MessageSquare,
   Edit,
   Trash2,
-  Eye
+  Eye,
+  Settings
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { mockPricing } from '../../context/AuthContext';
 
 const AdminDashboard: React.FC = () => {
   const { logout } = useAuth();
@@ -32,6 +34,8 @@ const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [pricing, setPricing] = useState(mockPricing);
+  const [showPricingModal, setShowPricingModal] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -43,6 +47,7 @@ const AdminDashboard: React.FC = () => {
     { id: 'registrations', label: 'Registrations', icon: Users },
     { id: 'payments', label: 'Payments', icon: CreditCard },
     { id: 'committees', label: 'Committees', icon: FileText },
+    { id: 'pricing', label: 'Pricing', icon: Settings },
     { id: 'mailer', label: 'Mailer', icon: Mail },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'contact', label: 'Contact Forms', icon: MessageSquare },
@@ -435,6 +440,49 @@ const AdminDashboard: React.FC = () => {
               </div>
             )}
 
+            {activeTab === 'pricing' && (
+              <div className="space-y-6">
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-lg font-semibold text-gray-900">Pricing Configuration</h3>
+                    <button 
+                      onClick={() => setShowPricingModal(true)}
+                      className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors flex items-center"
+                    >
+                      <Edit className="w-4 h-4 mr-2" />
+                      Update Pricing
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="border rounded-lg p-4">
+                      <h4 className="font-medium text-gray-900 mb-2">Internal Delegate</h4>
+                      <p className="text-2xl font-bold text-blue-800">₹{pricing.internalDelegate}</p>
+                      <p className="text-sm text-gray-600">For Kumaraguru students</p>
+                    </div>
+                    
+                    <div className="border rounded-lg p-4">
+                      <h4 className="font-medium text-gray-900 mb-2">External Delegate</h4>
+                      <p className="text-2xl font-bold text-blue-800">₹{pricing.externalDelegate}</p>
+                      <p className="text-sm text-gray-600">For external participants</p>
+                    </div>
+                    
+                    <div className="border rounded-lg p-4">
+                      <h4 className="font-medium text-gray-900 mb-2">Accommodation</h4>
+                      <p className="text-2xl font-bold text-blue-800">₹{pricing.accommodationCharge}</p>
+                      <p className="text-sm text-gray-600">Per night accommodation</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-600">
+                      <strong>Last Updated:</strong> {new Date(pricing.updatedAt).toLocaleString()} by {pricing.updatedBy}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === 'contact' && (
               <div className="space-y-6">
                 <div className="bg-white rounded-lg shadow-sm p-6">
@@ -498,6 +546,62 @@ const AdminDashboard: React.FC = () => {
                       </button>
                       <button className="flex-1 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">
                         Upload
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Pricing Modal */}
+            {showPricingModal && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Update Pricing</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Internal Delegate (₹)</label>
+                      <input
+                        type="number"
+                        value={pricing.internalDelegate}
+                        onChange={(e) => setPricing({...pricing, internalDelegate: Number(e.target.value)})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">External Delegate (₹)</label>
+                      <input
+                        type="number"
+                        value={pricing.externalDelegate}
+                        onChange={(e) => setPricing({...pricing, externalDelegate: Number(e.target.value)})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Accommodation Charge (₹)</label>
+                      <input
+                        type="number"
+                        value={pricing.accommodationCharge}
+                        onChange={(e) => setPricing({...pricing, accommodationCharge: Number(e.target.value)})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                    <div className="flex space-x-4">
+                      <button 
+                        onClick={() => setShowPricingModal(false)}
+                        className="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setPricing({...pricing, updatedAt: new Date().toISOString(), updatedBy: 'admin@mun.com'});
+                          setShowPricingModal(false);
+                          toast.success('Pricing updated successfully!');
+                        }}
+                        className="flex-1 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors"
+                      >
+                        Update
                       </button>
                     </div>
                   </div>

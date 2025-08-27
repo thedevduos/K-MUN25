@@ -1,76 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Download, Users, Globe, FileText } from 'lucide-react';
+import { mockCommittees } from '../context/AuthContext';
 
 const Committees: React.FC = () => {
-  const committees = [
-    {
-      id: 1,
-      name: 'United Nations Security Council',
-      shortName: 'UNSC',
-      logo: '🛡️',
-      agenda: 'The Question of Nuclear Disarmament in the Korean Peninsula',
-      level: 'Advanced',
-      portfolios: 15,
-      description: 'The Security Council has primary responsibility for the maintenance of international peace and security.',
-      backgroundGuide: '/guides/unsc-bg.pdf'
-    },
-    {
-      id: 2,
-      name: 'General Assembly First Committee',
-      shortName: 'GA1',
-      logo: '🌍',
-      agenda: 'Disarmament and International Security',
-      level: 'Beginner',
-      portfolios: 193,
-      description: 'Deals with disarmament, global challenges and threats to peace that affect the international community.',
-      backgroundGuide: '/guides/ga1-bg.pdf'
-    },
-    {
-      id: 3,
-      name: 'Economic and Social Council',
-      shortName: 'ECOSOC',
-      logo: '💼',
-      agenda: 'Sustainable Development Goals: Progress and Challenges',
-      level: 'Intermediate',
-      portfolios: 54,
-      description: 'Coordinates economic and social work of the UN and its specialized agencies.',
-      backgroundGuide: '/guides/ecosoc-bg.pdf'
-    },
-    {
-      id: 4,
-      name: 'Human Rights Council',
-      shortName: 'HRC',
-      logo: '⚖️',
-      agenda: 'Protection of Human Rights in Conflict Zones',
-      level: 'Intermediate',
-      portfolios: 47,
-      description: 'Responsible for promoting and protecting human rights around the globe.',
-      backgroundGuide: '/guides/hrc-bg.pdf'
-    },
-    {
-      id: 5,
-      name: 'International Court of Justice',
-      shortName: 'ICJ',
-      logo: '🏛️',
-      agenda: 'Maritime Boundary Disputes in the South China Sea',
-      level: 'Advanced',
-      portfolios: 30,
-      description: 'The principal judicial organ of the United Nations.',
-      backgroundGuide: '/guides/icj-bg.pdf'
-    },
-    {
-      id: 6,
-      name: 'World Health Organization',
-      shortName: 'WHO',
-      logo: '🏥',
-      agenda: 'Global Health Security and Pandemic Preparedness',
-      level: 'Beginner',
-      portfolios: 194,
-      description: 'Directing and coordinating authority on international health within the UN system.',
-      backgroundGuide: '/guides/who-bg.pdf'
-    }
-  ];
 
   const getLevelColor = (level: string) => {
     switch (level) {
@@ -104,7 +37,7 @@ const Committees: React.FC = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {committees.map((committee, index) => (
+            {mockCommittees.map((committee, index) => (
               <motion.div
                 key={committee.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -118,12 +51,8 @@ const Committees: React.FC = () => {
                       <div className="text-4xl">{committee.logo}</div>
                       <div>
                         <h3 className="text-xl font-bold text-gray-900">{committee.name}</h3>
-                        <p className="text-primary-900 font-medium">({committee.shortName})</p>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getLevelColor(committee.level)}`}>
-                      {committee.level}
-                    </span>
                   </div>
 
                   <div className="space-y-4 mb-6">
@@ -132,21 +61,13 @@ const Committees: React.FC = () => {
                       <p className="text-gray-600">{committee.agenda}</p>
                     </div>
                     
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Description</h4>
-                      <p className="text-gray-600">{committee.description}</p>
-                    </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-6 border-t border-gray-200">
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
                         <Users className="w-4 h-4" />
-                        <span>{committee.portfolios} portfolios</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Globe className="w-4 h-4" />
-                        <span>{committee.level}</span>
+                        <span>{committee.portfolios.length} portfolios</span>
                       </div>
                     </div>
                     <button className="flex items-center gap-2 bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors">

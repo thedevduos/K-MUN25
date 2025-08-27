@@ -391,6 +391,46 @@ export const CheckIn = sequelize.define('CheckIn', {
   timestamps: false,
 });
 
+// PricingConfig Model
+export const PricingConfig = sequelize.define('PricingConfig', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+  internalDelegate: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  externalDelegate: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  accommodationCharge: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  currency: {
+    type: DataTypes.STRING,
+    defaultValue: 'INR',
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
+  updatedBy: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
+  },
+}, {
+  tableName: 'pricing_configs',
+  timestamps: true,
+});
+
 // Define Associations
 User.hasOne(Registration, { foreignKey: 'userId', as: 'registration' });
 Registration.belongsTo(User, { foreignKey: 'userId', as: 'user' });
@@ -409,5 +449,8 @@ Portfolio.belongsTo(Committee, { foreignKey: 'committeeId', as: 'committee' });
 
 User.hasMany(Committee, { foreignKey: 'createdBy', as: 'createdCommittees' });
 Committee.belongsTo(User, { foreignKey: 'createdBy', as: 'creator' });
+
+User.hasMany(PricingConfig, { foreignKey: 'updatedBy', as: 'pricingConfigs' });
+PricingConfig.belongsTo(User, { foreignKey: 'updatedBy', as: 'updater' });
 
 export { sequelize };
