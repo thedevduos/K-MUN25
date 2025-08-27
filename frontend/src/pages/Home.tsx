@@ -75,6 +75,7 @@ const Home: React.FC = () => {
                 to="/register"
                 className="inline-block bg-white text-[#172d9d] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
                 onClick={() => toast.success('Welcome to K-MUN 2025 Registration!')}
+                onClick={() => toast.success('Welcome to K-MUN 2025 Registration!')}
               >
                 REGISTER NOW
               </Link>
@@ -259,6 +260,7 @@ const Home: React.FC = () => {
             <Link
               to="/committees"
               className="inline-block bg-[#172d9d] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#797dfa] transition-colors"
+              onClick={() => toast('Explore our amazing committees!')}
               onClick={() => toast('Explore our amazing committees!')}
             >
               CHECK THEM OUT

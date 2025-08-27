@@ -55,23 +55,29 @@ const Header: React.FC = () => {
           <div className="hidden md:flex items-center space-x-8">
             {/* Desktop Navigation */}
             <nav className="flex items-center space-x-8">
-              <Link to="/" className="text-gray-700 hover:text-primary-900 transition-colors">
+              <Link to="/" className="group relative text-gray-700 hover:text-primary-900 transition-colors">
                 Home
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/about" className="text-gray-700 hover:text-primary-900 transition-colors">
+              <Link to="/about" className="group relative text-gray-700 hover:text-primary-900 transition-colors">
                 About
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/committees" className="text-gray-700 hover:text-primary-900 transition-colors">
+              <Link to="/committees" className="group relative text-gray-700 hover:text-primary-900 transition-colors">
                 Committees
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/resources" className="text-gray-700 hover:text-primary-900 transition-colors">
+              <Link to="/resources" className="group relative text-gray-700 hover:text-primary-900 transition-colors">
                 Resources
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/gallery" className="text-gray-700 hover:text-primary-900 transition-colors">
+              <Link to="/gallery" className="group relative text-gray-700 hover:text-primary-900 transition-colors">
                 Gallery
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/contact" className="text-gray-700 hover:text-primary-900 transition-colors">
+              <Link to="/contact" className="group relative text-gray-700 hover:text-primary-900 transition-colors">
                 Contact
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
 

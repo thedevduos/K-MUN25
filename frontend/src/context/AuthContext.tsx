@@ -24,6 +24,7 @@ export const useAuth = () => {
 const mockUsers: User[] = [
   {
     id: '1',
+    userId: 'KMUN25001',
     name: 'John Doe',
     email: 'participant@mun.com',
     phone: '+91 9876543210',
@@ -38,6 +39,7 @@ const mockUsers: User[] = [
   },
   {
     id: '2',
+    userId: 'KMUN25002',
     name: 'Software Admin',
     email: 'admin@mun.com',
     phone: '+91 9876543211',
@@ -50,6 +52,7 @@ const mockUsers: User[] = [
   },
   {
     id: '3',
+    userId: 'KMUN25003',
     name: 'Registration Staff',
     email: 'registration@mun.com',
     phone: '+91 9876543212',
@@ -62,6 +65,7 @@ const mockUsers: User[] = [
   },
   {
     id: '4',
+    userId: 'KMUN25004',
     name: 'Hospitality Staff',
     email: 'hospitality@mun.com',
     phone: '+91 9876543213',
@@ -74,6 +78,7 @@ const mockUsers: User[] = [
   },
   {
     id: '5',
+    userId: 'KMUN25005',
     name: 'Allocation Staff',
     email: 'allocation@mun.com',
     phone: '+91 9876543214',
@@ -86,6 +91,7 @@ const mockUsers: User[] = [
   },
   {
     id: '6',
+    userId: 'KMUN25006',
     name: 'Executive Board Member',
     email: 'executive@mun.com',
     phone: '+91 9876543215',

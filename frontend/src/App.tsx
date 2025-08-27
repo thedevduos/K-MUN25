@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import ErrorBoundary from './components/Common/ErrorBoundary';
+import PageLoader from './components/Common/PageLoader';
 import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -24,7 +26,6 @@ import RegistrationAdminDashboard from './components/Dashboard/RegistrationAdmin
 import HospitalityAdminDashboard from './components/Dashboard/HospitalityAdminDashboard';
 import AllocationAdminDashboard from './components/Dashboard/AllocationAdminDashboard';
 import ExecutiveBoardDashboard from './components/Dashboard/ExecutiveBoardDashboard';
-import PageLoader from './components/Common/PageLoader';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: string[] }> = ({ 

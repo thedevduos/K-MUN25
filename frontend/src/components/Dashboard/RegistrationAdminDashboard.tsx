@@ -42,7 +42,7 @@ const RegistrationAdminDashboard: React.FC = () => {
 
   const participants = [
     { 
-      id: 'KMUN25001', 
+      id: 'KMUN25001',
       name: 'John Smith', 
       email: 'john@university.edu', 
       institution: 'Harvard University',
@@ -56,7 +56,7 @@ const RegistrationAdminDashboard: React.FC = () => {
       checkOutFrequency: 0
     },
     { 
-      id: 'KMUN25002', 
+      id: 'KMUN25002',
       name: 'Sarah Johnson', 
       email: 'sarah@college.edu', 
       institution: 'MIT',
@@ -211,7 +211,7 @@ const RegistrationAdminDashboard: React.FC = () => {
                     <div className="flex-1">
                       <input
                         type="text"
-                       placeholder="Enter User ID (e.g., KMUN25001)"
+                        placeholder="Enter User ID (e.g., KMUN25001)"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         onKeyPress={(e) => {
                           if (e.key === 'Enter') {

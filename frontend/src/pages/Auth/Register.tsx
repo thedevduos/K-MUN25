@@ -14,7 +14,9 @@ import {
   AlertCircle,
   Users,
   Copy
+  Copy
 } from 'lucide-react';
+import LoadingSpinner from '../../components/Common/LoadingSpinner';
 import LoadingSpinner from '../../components/Common/LoadingSpinner';
 
 interface RegistrationForm {
@@ -43,6 +45,7 @@ interface RegistrationForm {
 const Register: React.FC = () => {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -71,6 +74,9 @@ const Register: React.FC = () => {
 
   const onSubmit = async (data: RegistrationForm) => {
     const loadingToast = toast.loading('Submitting registration...');
+    setLoading(true);
+    
+    const loadingToast = toast.loading('Submitting registration...');
     
     console.log('Registration Data:', data);
     
@@ -82,9 +88,13 @@ const Register: React.FC = () => {
     
     toast.success('Registration submitted successfully!', { id: loadingToast });
     setSubmitted(true);
+    setLoading(false);
     
     // Navigate to success page or login
     setTimeout(() => {
+      toast.success(`Your User ID is ${userId}. Please save it for future reference.`, {
+        duration: 8000,
+      });
       toast.success(`Your User ID is ${userId}. Please save it for future reference.`, {
         duration: 8000,
       });
@@ -125,6 +135,15 @@ const Register: React.FC = () => {
                 KMUN25{String(Math.floor(Math.random() * 900) + 100)}
               </code>
               <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`KMUN25${String(Math.floor(Math.random() * 900) + 100)}`);
+                  toast.success('User ID copied to clipboard!');
+                }}
+                className="p-1 text-blue-600 hover:text-blue-800"
+              >
+                <Copy className="w-4 h-4" />
+              </button>
+            </div>
                 onClick={() => {
                   navigator.clipboard.writeText(`KMUN25${String(Math.floor(Math.random() * 900) + 100)}`);
                   toast.success('User ID copied to clipboard!');
@@ -681,6 +700,7 @@ const Register: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
+                  disabled={loading}
                   className="ml-auto px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
                 >
                   {loading ? (
@@ -689,7 +709,14 @@ const Register: React.FC = () => {
                       <span className="ml-2">Submitting...</span>
                     </div>
                   ) : (
+                  {loading ? (
+                    <div className="flex items-center">
+                      <LoadingSpinner size="sm" color="white" />
+                      <span className="ml-2">Submitting...</span>
+                    </div>
+                  ) : (
                     'Submit Registration'
+                  )}
                   )}
                 </button>
               )}
