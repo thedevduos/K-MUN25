@@ -11,6 +11,7 @@ import {
   Calendar,
   MapPin
 } from 'lucide-react';
+import { mockPricing } from '../context/AuthContext';
 
 const Home: React.FC = () => {
   const featuredCommittees = [
@@ -279,12 +280,16 @@ const Home: React.FC = () => {
               <h3 className="text-2xl font-bold mb-6">Registration Details</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-lg">Individual Delegate</span>
-                  <span className="text-2xl font-bold">₹1,599</span>
+                  <span className="text-lg">Internal Delegate</span>
+                  <span className="text-2xl font-bold">₹{mockPricing.internalDelegate}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-lg">Per Delegate for Group Delegation</span>
-                  <span className="text-2xl font-bold">₹1,399</span>
+                  <span className="text-lg">External Delegate</span>
+                  <span className="text-2xl font-bold">₹{mockPricing.externalDelegate}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-lg">Accommodation Charge</span>
+                  <span className="text-2xl font-bold">₹{mockPricing.accommodationCharge}</span>
                 </div>
               </div>
             </motion.div>

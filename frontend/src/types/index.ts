@@ -132,3 +132,21 @@ export interface Resource {
   downloads: number;
   uploadedBy: string;
 }
+
+export interface PricingConfig {
+  id: string;
+  internalDelegate: number;
+  externalDelegate: number;
+  accommodationCharge: number;
+  currency: string;
+  isActive: boolean;
+  updatedBy: string;
+  updatedAt: string;
+}
+
+export interface Portfolio {
+  id: string;
+  name: string;
+  committeeId: string;
+  isAllocated: boolean;
+}

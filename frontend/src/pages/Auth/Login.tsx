@@ -35,12 +35,12 @@ const Login: React.FC = () => {
   };
 
   const demoAccounts = [
-    { email: 'participant@mun.com', role: 'Participant', password: 'demo123' },
-    { email: 'admin@mun.com', role: 'Software Admin', password: 'demo123' },
-    { email: 'registration@mun.com', role: 'Registration Admin', password: 'demo123' },
-    { email: 'hospitality@mun.com', role: 'Hospitality Admin', password: 'demo123' },
-    { email: 'allocation@mun.com', role: 'Allocation Admin', password: 'demo123' },
-    { email: 'executive@mun.com', role: 'Executive Board', password: 'demo123' }
+    { email: 'participant@mun.com', role: 'Participant', password: 'IamJohn1!@#' },
+    { email: 'admin@mun.com', role: 'Software Admin', password: 'IamSoftware1!@#' },
+    { email: 'registration@mun.com', role: 'Registration Admin', password: 'IamRegistration1!@#' },
+    { email: 'hospitality@mun.com', role: 'Hospitality Admin', password: 'IamHospitality1!@#' },
+    { email: 'allocation@mun.com', role: 'Allocation Admin', password: 'IamAllocation1!@#' },
+    { email: 'executive@mun.com', role: 'Executive Board', password: 'IamExecutive1!@#' }
   ];
 
   return (
@@ -92,7 +92,7 @@ const Login: React.FC = () => {
                   </div>
                 ))}
                 <div className="text-center mt-2 text-primary-600">
-                  Password: <span className="font-mono">demo123</span>
+                  Password: <span className="font-mono">kmun2025</span> (or use format above)
                 </div>
               </div>
             </div>

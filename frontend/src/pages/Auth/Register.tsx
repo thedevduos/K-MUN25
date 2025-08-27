@@ -16,6 +16,7 @@ import {
   Copy
 } from 'lucide-react';
 import LoadingSpinner from '../../components/Common/LoadingSpinner';
+import { mockCommittees } from '../../context/AuthContext';
 
 interface RegistrationForm {
   firstName: string;
@@ -56,17 +57,9 @@ const Register: React.FC = () => {
 
   const isKumaraguru = watch('isKumaraguru');
 
-  const committees = [
-    { name: 'United Nations Security Council', portfolios: ['United States', 'China', 'Russia', 'United Kingdom', 'France'] },
-    { name: 'General Assembly First Committee', portfolios: ['India', 'Germany', 'Japan', 'Brazil', 'South Africa'] },
-    { name: 'Economic and Social Council', portfolios: ['Canada', 'Australia', 'Mexico', 'Argentina', 'Egypt'] },
-    { name: 'Human Rights Council', portfolios: ['Netherlands', 'Sweden', 'Norway', 'Switzerland', 'Belgium'] },
-    { name: 'International Court of Justice', portfolios: ['Judge from India', 'Judge from USA', 'Judge from UK', 'Judge from France'] },
-    { name: 'World Health Organization', portfolios: ['WHO Director', 'India', 'USA', 'China', 'Germany'] }
-  ];
 
   const getPortfoliosForCommittee = (committeeName: string) => {
-    const committee = committees.find(c => c.name === committeeName);
+    const committee = mockCommittees.find(c => c.name === committeeName);
     return committee ? committee.portfolios : [];
   };
 
@@ -496,7 +489,7 @@ const Register: React.FC = () => {
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                           >
                             <option value="">Select a committee</option>
-                            {committees.map((committee) => (
+                            {mockCommittees.map((committee) => (
                               <option key={committee.name} value={committee.name}>
                                 {committee.name}
                               </option>
