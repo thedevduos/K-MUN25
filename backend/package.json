@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "npx nodemon src/index.js",
     "start": "node src/index.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
