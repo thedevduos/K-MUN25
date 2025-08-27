@@ -20,6 +20,14 @@ const Header: React.FC = () => {
     if (!user) return '/';
     
     switch (user.role) {
+      default:
+        return '/';
+    }
+  };
+
+  return (
+    <header className="bg-white shadow-sm border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
@@ -64,6 +72,7 @@ const Header: React.FC = () => {
               </Link>
               <Link to="/contact" className="text-gray-700 hover:text-primary-900 transition-colors">
                 Contact
+              </Link>
             </nav>
 
             {/* Auth Section */}
@@ -123,7 +132,7 @@ const Header: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
+          </div>
 
         {/* Mobile menu button */}
           <button
