@@ -16,6 +16,14 @@ export const User = sequelize.define('User', {
       is: /^KMUN25\d{3}$/,
     },
   },
+  userId: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      is: /^KMUN25\d{3}$/,
+    },
+  },
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -82,6 +90,10 @@ export const User = sequelize.define('User', {
     {
       unique: true,
       fields: ['email'],
+    },
+    {
+      unique: true,
+      fields: ['userId'],
     },
     {
       unique: true,
