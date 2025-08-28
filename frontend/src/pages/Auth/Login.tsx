@@ -25,7 +25,7 @@ const Login: React.FC = () => {
       await login(email, password);
       toast.success('Login successful!');
       navigate('/dashboard');
-    } catch (err) {
+    } catch {
       const errorMessage = 'Invalid credentials';
       setError(errorMessage);
       toast.error(errorMessage);

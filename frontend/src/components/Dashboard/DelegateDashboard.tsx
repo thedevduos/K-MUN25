@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
   User, 
-  Calendar, 
   Bell, 
   LogOut,
-  Home,
-  CreditCard,
-  CheckCircle,
-  Clock,
-  MapPin
+  Home
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';

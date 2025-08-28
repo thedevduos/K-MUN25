@@ -24,16 +24,10 @@ router.get('/', pricingController.getCurrentPricing);
 router.put(
   '/',
   authenticateToken,
-  authorizeRoles('SOFTWARE_ADMIN', 'SUPER_ADMIN'),
+  authorizeRoles('DEV_ADMIN'),
   pricingValidation,
   validateRequest,
   pricingController.updatePricing
-);
-router.get(
-  '/history',
-  authenticateToken,
-  authorizeRoles('SOFTWARE_ADMIN', 'SUPER_ADMIN'),
-  pricingController.getPricingHistory
 );
 
 export default router;

@@ -30,7 +30,7 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center space-x-3">
             <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
               <img
                 src="/logo.png"
@@ -49,6 +49,7 @@ const Header: React.FC = () => {
               />
               <div className="hidden text-gray-900 font-bold text-lg">K</div>
             </div>
+            <h1 className="text-xl font-bold text-[#37c9ee]">Kumaraguru MUN</h1>
           </Link>
 
           {/* Right Side - Navigation and Auth */}
@@ -91,10 +92,10 @@ const Header: React.FC = () => {
                 >
                   <div className="w-8 h-8 bg-primary-900 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-medium">
-                      {user?.name.charAt(0).toUpperCase()}
+                      {user?.firstName.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-gray-700">{user?.name}</span>
+                  <span className="text-sm font-medium text-gray-700">{user?.firstName} {user?.lastName}</span>
                 </button>
 
                 {isProfileOpen && (
@@ -206,11 +207,11 @@ const Header: React.FC = () => {
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="w-10 h-10 bg-primary-900 rounded-full flex items-center justify-center">
                       <span className="text-white font-medium">
-                        {user?.name.charAt(0).toUpperCase()}
+                        {user?.firstName.charAt(0).toUpperCase()}
                       </span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">{user?.name}</div>
+                      <div className="font-medium text-gray-900">{user?.firstName} {user?.lastName}</div>
                       <div className="text-sm text-gray-500 capitalize">{user?.role.replace('-', ' ')}</div>
                     </div>
                   </div>

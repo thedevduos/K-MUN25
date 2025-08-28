@@ -5,15 +5,12 @@ import {
   FileText, 
   BookOpen, 
   Video,
-  Search,
-  Filter,
   Calendar,
   Eye
 } from 'lucide-react';
 
 const Resources: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
 
   const filters = [
     { id: 'all', label: 'All Resources' },
@@ -203,10 +200,7 @@ const Resources: React.FC = () => {
   ];
 
   const filteredResources = resources.filter(resource => {
-    const matchesFilter = activeFilter === 'all' || resource.type === activeFilter;
-    const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         resource.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
+    return activeFilter === 'all' || resource.type === activeFilter;
   });
 
   const getFileIcon = (format: string) => {
@@ -253,23 +247,10 @@ const Resources: React.FC = () => {
         </div>
       </section>
 
-      {/* Search and Filter Section */}
+      {/* Filter Section */}
       <section className="py-8 bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            {/* Search */}
-            <div className="flex-1 max-w-md relative">
-              <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-              <input
-                type="text"
-                placeholder="Search resources..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-              />
-            </div>
-
-            {/* Filters */}
+          <div className="flex justify-center">
             <div className="flex flex-wrap gap-2">
               {filters.map((filter) => (
                 <button
@@ -350,48 +331,9 @@ const Resources: React.FC = () => {
             <div className="text-center py-12">
               <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-medium text-gray-900 mb-2">No resources found</h3>
-              <p className="text-gray-600">Try adjusting your search or filter criteria</p>
+              <p className="text-gray-600">Try adjusting your filter criteria</p>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Help Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Need Help?
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Can't find what you're looking for? Contact our team for assistance
-            </p>
-          </motion.div>
-
-          <div className="flex justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center max-w-md"
-            >
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-8 h-8 text-primary-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Document Request</h3>
-              <p className="text-gray-600 mb-4">Need a specific document that's not available?</p>
-              <button 
-                onClick={() => window.location.href = '/contact#message'}
-                className="bg-primary-900 text-white px-4 py-2 rounded-lg hover:bg-primary-950 transition-colors"
-              >
-                Request Document
-              </button>
-            </motion.div>
-          </div>
         </div>
       </section>
     </div>

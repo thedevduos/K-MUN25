@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
   Users, 
   Search, 
-  Filter,
   Mail,
   Bell,
   MessageSquare,
   UserCheck,
-  Clock,
-  CheckCircle,
   LogOut,
-  FileText,
   Edit
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -73,7 +68,7 @@ const DelegateAffairsDashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-green-500 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#172d9d] to-[#797dfa] rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">DA</span>
               </div>
               <div>

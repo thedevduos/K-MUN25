@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -12,15 +12,35 @@ import {
   Upload,
   Check,
   AlertCircle,
-  Users,
   Copy
 } from 'lucide-react';
 import LoadingSpinner from '../../components/Common/LoadingSpinner';
-import { mockCommittees } from '../../context/AuthContext';
+import { committeesAPI, pricingAPI } from '../../services/api';
+
+interface Committee {
+  id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  registered: number;
+  topics: string[];
+  chairs: string[];
+  portfolios?: string[];
+  image: string;
+}
+
+interface PricingData {
+  id: string;
+  internalDelegate: number;
+  externalDelegate: number;
+  accommodationCharge: number;
+  earlyBirdDiscount: number;
+  groupDiscount: number;
+  updatedAt: string;
+}
 
 interface RegistrationForm {
-  firstName: string;
-  lastName: string;
+  fullName: string;
   email: string;
   phone: string;
   gender: string;
@@ -28,6 +48,8 @@ interface RegistrationForm {
   rollNumber?: string;
   institutionType?: string;
   institution?: string;
+  cityOfInstitution?: string;
+  stateOfInstitution?: string;
   grade?: string;
   totalMuns: string;
   committeePreference1: string;
@@ -45,6 +67,9 @@ const Register: React.FC = () => {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [committees, setCommittees] = useState<Committee[]>([]);
+  const [committeesLoading, setCommitteesLoading] = useState(true);
+  const [pricing, setPricing] = useState<PricingData | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -57,10 +82,38 @@ const Register: React.FC = () => {
 
   const isKumaraguru = watch('isKumaraguru');
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [committeesResponse, pricingResponse] = await Promise.all([
+          committeesAPI.getAll(),
+          pricingAPI.get()
+        ]);
+
+        if (committeesResponse.success) {
+          setCommittees(committeesResponse.data);
+        } else {
+          toast.error('Failed to load committees');
+        }
+
+        if (pricingResponse.success) {
+          setPricing(pricingResponse.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Failed to load data');
+      } finally {
+        setCommitteesLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const getPortfoliosForCommittee = (committeeName: string) => {
-    const committee = mockCommittees.find(c => c.name === committeeName);
-    return committee ? committee.portfolios : [];
+    const committee = committees.find(c => c.name === committeeName);
+    // Return portfolios if available, otherwise return topics as fallback
+    return committee ? (committee.portfolios || committee.topics || []) : [];
   };
 
   const onSubmit = async (data: RegistrationForm) => {
@@ -188,7 +241,7 @@ const Register: React.FC = () => {
           <div className="flex justify-center mt-2">
             <div className="flex space-x-32 text-sm text-gray-600">
               <span className={step >= 1 ? 'text-primary-900 font-medium' : ''}>
-                Personal Info
+                Personal Information
               </span>
               <span className={step >= 2 ? 'text-primary-900 font-medium' : ''}>
                 Preferences
@@ -210,85 +263,72 @@ const Register: React.FC = () => {
               >
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Personal Information</h2>
                 
-                {/* Name Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name <span className="text-red-600">*</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        {...register('firstName', { required: 'First name is required' })}
-                        className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter your first name"
-                      />
-                      <User className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-                    </div>
-                    {errors.firstName && (
-                      <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
-                    )}
+                {/* Full Name Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name <span className="text-red-600">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      {...register('fullName', { required: 'Full name is required' })}
+                      className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter your full name"
+                    />
+                    <User className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name <span className="text-red-600">*</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        {...register('lastName', { required: 'Last name is required' })}
-                        className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter your last name"
-                      />
-                      <User className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-                    </div>
-                    {errors.lastName && (
-                      <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
-                    )}
-                  </div>
+                  {errors.fullName && (
+                    <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
+                  )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address <span className="text-red-600">*</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        {...register('email', { 
-                          required: 'Email is required',
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'Invalid email address'
-                          }
-                        })}
-                        type="email"
-                        className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="your.email@example.com"
-                      />
-                      <Mail className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-                    </div>
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-                    )}
+                {/* Email Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address <span className="text-red-600">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      {...register('email', { 
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: 'Invalid email address'
+                        }
+                      })}
+                      type="email"
+                      className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="your.email@example.com"
+                    />
+                    <Mail className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                   </div>
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                  )}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number <span className="text-red-600">*</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        {...register('phone', { required: 'Phone number is required' })}
-                        type="tel"
-                        className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="+91 98765 43210"
-                      />
-                      <Phone className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-                    </div>
-                    {errors.phone && (
-                      <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-                    )}
+                {/* Phone Number Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number <span className="text-red-600">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      {...register('phone', { 
+                        required: 'Phone number is required',
+                        pattern: {
+                          value: /^[0-9]{10}$/,
+                          message: 'Phone number must be exactly 10 digits'
+                        }
+                      })}
+                      type="tel"
+                      className="w-full px-3 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="9876543210"
+                    />
+                    <Phone className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
                   </div>
+                  {errors.phone && (
+                    <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                  )}
                 </div>
 
                 {/* Gender */}
@@ -405,6 +445,36 @@ const Register: React.FC = () => {
                       )}
                     </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          City of Institution <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          {...register('cityOfInstitution', { required: 'City is required' })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Enter city"
+                        />
+                        {errors.cityOfInstitution && (
+                          <p className="mt-1 text-sm text-red-600">{errors.cityOfInstitution.message}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          State of Institution <span className="text-red-600">*</span>
+                        </label>
+                        <input
+                          {...register('stateOfInstitution', { required: 'State is required' })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Enter state"
+                        />
+                        {errors.stateOfInstitution && (
+                          <p className="mt-1 text-sm text-red-600">{errors.stateOfInstitution.message}</p>
+                        )}
+                      </div>
+                    </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Grade/Year <span className="text-red-600">*</span>
@@ -472,63 +542,70 @@ const Register: React.FC = () => {
                   Select your top 3 committee and portfolio preferences in order of preference.
                 </p>
                 
-                <div className="space-y-8">
-                  {[1, 2, 3].map((num) => (
-                    <div key={num} className="border border-gray-200 rounded-lg p-6">
-                      <h3 className="text-lg font-medium text-gray-900 mb-4">Preference {num}</h3>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Committee Preference {num} <span className="text-red-600">*</span>
-                          </label>
-                          <select
-                            {...register(`committeePreference${num}` as keyof RegistrationForm, {
-                              required: `Committee preference ${num} is required`
-                            })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select a committee</option>
-                            {mockCommittees.map((committee) => (
-                              <option key={committee.name} value={committee.name}>
-                                {committee.name}
-                              </option>
-                            ))}
-                          </select>
-                          {errors[`committeePreference${num}` as keyof RegistrationForm] && (
-                            <p className="mt-1 text-sm text-red-600">
-                              {errors[`committeePreference${num}` as keyof RegistrationForm]?.message}
-                            </p>
-                          )}
-                        </div>
+                {committeesLoading ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                    <p className="mt-2 text-gray-600">Loading committees...</p>
+                  </div>
+                ) : (
+                  <div className="space-y-8">
+                    {[1, 2, 3].map((num) => (
+                      <div key={num} className="border border-gray-200 rounded-lg p-6">
+                        <h3 className="text-lg font-medium text-gray-900 mb-4">Preference {num}</h3>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Committee Preference {num} <span className="text-red-600">*</span>
+                            </label>
+                            <select
+                              {...register(`committeePreference${num}` as keyof RegistrationForm, {
+                                required: `Committee preference ${num} is required`
+                              })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            >
+                              <option value="">Select a committee</option>
+                              {committees.map((committee) => (
+                                <option key={committee.name} value={committee.name}>
+                                  {committee.name}
+                                </option>
+                              ))}
+                            </select>
+                            {errors[`committeePreference${num}` as keyof RegistrationForm] && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors[`committeePreference${num}` as keyof RegistrationForm]?.message}
+                              </p>
+                            )}
+                          </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Portfolio Preference {num} <span className="text-red-600">*</span>
-                          </label>
-                          <select
-                            {...register(`portfolioPreference${num}` as keyof RegistrationForm, {
-                              required: `Portfolio preference ${num} is required`
-                            })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select a portfolio</option>
-                            {getPortfoliosForCommittee(watch(`committeePreference${num}` as keyof RegistrationForm) || '').map((portfolio) => (
-                              <option key={portfolio} value={portfolio}>
-                                {portfolio}
-                              </option>
-                            ))}
-                          </select>
-                          {errors[`portfolioPreference${num}` as keyof RegistrationForm] && (
-                            <p className="mt-1 text-sm text-red-600">
-                              {errors[`portfolioPreference${num}` as keyof RegistrationForm]?.message}
-                            </p>
-                          )}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Portfolio Preference {num} <span className="text-red-600">*</span>
+                            </label>
+                            <select
+                              {...register(`portfolioPreference${num}` as keyof RegistrationForm, {
+                                required: `Portfolio preference ${num} is required`
+                              })}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            >
+                              <option value="">Select a portfolio</option>
+                              {getPortfoliosForCommittee(watch(`committeePreference${num}` as keyof RegistrationForm) || '').map((portfolio) => (
+                                <option key={portfolio} value={portfolio}>
+                                  {portfolio}
+                                </option>
+                              ))}
+                            </select>
+                            {errors[`portfolioPreference${num}` as keyof RegistrationForm] && (
+                              <p className="mt-1 text-sm text-red-600">
+                                {errors[`portfolioPreference${num}` as keyof RegistrationForm]?.message}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </motion.div>
             )}
 
@@ -609,13 +686,47 @@ const Register: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Pricing Summary */}
+                {pricing && (
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mb-4">
+                    <h4 className="text-lg font-semibold text-blue-900 mb-4">Registration Fees</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-white p-4 rounded-lg border border-blue-200">
+                        <h5 className="font-medium text-blue-900 mb-2">Internal Delegate</h5>
+                        <p className="text-2xl font-bold text-blue-600">₹{pricing.internalDelegate}</p>
+                        <p className="text-sm text-gray-600">Kumaraguru students</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg border border-blue-200">
+                        <h5 className="font-medium text-blue-900 mb-2">External Delegate</h5>
+                        <p className="text-2xl font-bold text-blue-600">₹{pricing.externalDelegate}</p>
+                        <p className="text-sm text-gray-600">Other institutions</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg border border-blue-200">
+                        <h5 className="font-medium text-blue-900 mb-2">Accommodation</h5>
+                        <p className="text-2xl font-bold text-blue-600">₹{pricing.accommodationCharge}</p>
+                        <p className="text-sm text-gray-600">Optional 3-night stay</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-blue-200">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Early Bird Discount:</span>
+                        <span className="font-medium text-green-600">₹{pricing.earlyBirdDiscount}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Group Discount:</span>
+                        <span className="font-medium text-green-600">₹{pricing.groupDiscount} per person</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <div className="flex">
                     <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
                     <div className="text-sm text-blue-800">
                       <p className="font-medium mb-1">Important Notes:</p>
                       <ul className="list-disc list-inside space-y-1">
-                        <li>Registration fee: ₹150 (Early Bird) / ₹200 (Regular)</li>
+                        <li>Registration fee: ₹{pricing?.internalDelegate || 2500} (Internal) / ₹{pricing?.externalDelegate || 3500} (External)</li>
                         <li>Payment must be completed within 48 hours of registration</li>
                         <li>Committee allocation will be based on preferences and availability</li>
                         <li>All documents will be verified before final confirmation</li>

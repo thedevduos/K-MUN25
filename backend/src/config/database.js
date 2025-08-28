@@ -1,28 +1,7 @@
-import { Sequelize } from 'sequelize';
-import pkg from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 
-const { PrismaClient } = pkg;
-
 dotenv.config();
-
-// Sequelize Configuration
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  logging: process.env.NODE_ENV === 'development' ? console.log : false,
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-  dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? {
-      require: true,
-      rejectUnauthorized: false
-    } : false
-  }
-});
 
 // Prisma Client
 const prisma = new PrismaClient({
@@ -32,9 +11,6 @@ const prisma = new PrismaClient({
 // Test database connection
 export const connectDatabase = async () => {
   try {
-    await sequelize.authenticate();
-    console.log('✅ Database connection established successfully.');
-    
     // Test Prisma connection
     await prisma.$connect();
     console.log('✅ Prisma client connected successfully.');
@@ -49,7 +25,6 @@ export const connectDatabase = async () => {
 // Graceful shutdown
 export const disconnectDatabase = async () => {
   try {
-    await sequelize.close();
     await prisma.$disconnect();
     console.log('✅ Database connections closed successfully.');
   } catch (error) {
@@ -57,4 +32,4 @@ export const disconnectDatabase = async () => {
   }
 };
 
-export { sequelize, prisma };
+export { prisma };

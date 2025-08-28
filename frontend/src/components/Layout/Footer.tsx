@@ -14,8 +14,23 @@ const Footer: React.FC = () => {
           {/* Logo, Description & Social Media */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-primary-400 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">MUN</span>
+              <div className="w-8 h-8 flex items-center justify-center overflow-hidden">
+                <img
+                  src="/logo.png"
+                  alt="K-MUN 2025 Logo"
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (!target.dataset.fallback) {
+                      target.dataset.fallback = 'jpg';
+                      target.src = '/logo.jpg';
+                    } else {
+                      target.style.display = 'none';
+                      target.nextElementSibling?.classList.remove('hidden');
+                    }
+                  }}
+                />
+                <div className="hidden text-white font-bold text-sm">MUN</div>
               </div>
               <span className="text-xl font-bold">Kumaraguru MUN 2025</span>
             </div>

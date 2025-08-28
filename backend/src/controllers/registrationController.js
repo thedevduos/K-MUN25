@@ -1,8 +1,10 @@
-import { prisma } from '../config/database.js';
-import { Registration, User } from '../models/index.js';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 import fileUploadService from '../services/fileUploadService.js';
 import emailService from '../services/emailService.js';
 import paymentService from '../services/paymentService.js';
+
+const prisma = new PrismaClient();
 
 class RegistrationController {
   async createRegistration(req, res) {
@@ -39,37 +41,41 @@ class RegistrationController {
       const userPassword = `Iam${firstName}1!@#`;
       const hashedPassword = await bcrypt.hash(userPassword, 12);
 
-      const user = await User.create({
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-        phone,
-        role: 'PARTICIPANT',
+      const user = await prisma.user.create({
+        data: {
+          firstName,
+          lastName,
+          email,
+          password: hashedPassword,
+          phone,
+          role: 'PARTICIPANT',
+        }
       });
 
       // Create registration
-      const registration = await Registration.create({
-        userId: user.id,
-        firstName,
-        lastName,
-        email,
-        phone,
-        gender,
-        isKumaraguru: isKumaraguru === 'yes',
-        rollNumber,
-        institutionType,
-        institution,
-        grade,
-        totalMuns,
-        committeePreference1,
-        portfolioPreference1,
-        committeePreference2,
-        portfolioPreference2,
-        committeePreference3,
-        portfolioPreference3,
-        idDocument: req.files.idDocument[0].path,
-        munResume: req.files.munResume ? req.files.munResume[0].path : null,
+      const registration = await prisma.registration.create({
+        data: {
+          userId: user.id,
+          firstName,
+          lastName,
+          email,
+          phone,
+          gender,
+          isKumaraguru: isKumaraguru === 'yes',
+          rollNumber,
+          institutionType,
+          institution,
+          grade,
+          totalMuns,
+          committeePreference1,
+          portfolioPreference1,
+          committeePreference2,
+          portfolioPreference2,
+          committeePreference3,
+          portfolioPreference3,
+          idDocument: req.files.idDocument[0].path,
+          munResume: req.files.munResume ? req.files.munResume[0].path : null,
+        }
       });
 
       // Send registration confirmation email

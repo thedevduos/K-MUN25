@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
   Users, 
   UserCheck,
   Upload,
   Bell,
   LogOut,
-  Calendar,
-  CheckCircle,
   Clock,
-  FileText,
-  Award
+  CheckCircle
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -61,12 +57,13 @@ const CommitteeDirectorDashboard: React.FC = () => {
     }
   ];
 
-  const events = [
-    { id: 1, name: 'Opening Session', date: '2025-09-26', time: '09:00-12:00', status: 'completed' },
-    { id: 2, name: 'Committee Session I', date: '2025-09-26', time: '14:00-17:00', status: 'completed' },
-    { id: 3, name: 'Committee Session II', date: '2025-09-27', time: '09:00-12:00', status: 'active' },
-    { id: 4, name: 'Closing Session', date: '2025-09-28', time: '16:00-18:00', status: 'upcoming' }
-  ];
+  // Mock events data for future use
+  // const events = [
+  //   { id: 1, name: 'Opening Session', date: '2025-09-26', time: '09:00-12:00', status: 'completed' },
+  //   { id: 2, name: 'Committee Session I', date: '2025-09-26', time: '14:00-17:00', status: 'completed' },
+  //   { id: 3, name: 'Committee Session II', date: '2025-09-27', time: '09:00-12:00', status: 'active' },
+  //   { id: 4, name: 'Closing Session', date: '2025-09-28', time: '16:00-18:00', status: 'upcoming' }
+  // ];
 
   const markAttendance = (memberId: string, eventId: number, status: 'PRESENT' | 'ABSENT' | 'LATE') => {
     console.log('Marking attendance:', memberId, eventId, status);
@@ -79,7 +76,7 @@ const CommitteeDirectorDashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-indigo-500 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#172d9d] to-[#797dfa] rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">CD</span>
               </div>
               <div>

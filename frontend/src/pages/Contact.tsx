@@ -53,19 +53,19 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       title: 'Email',
-      details: ['mun@kct.ac.in', 'registration@kumaraguruMUN.com'],
+      details: ['mun@kct.ac.in'],
       color: 'text-blue-600'
     },
     {
       icon: Phone,
       title: 'Phone',
-      details: ['+91 422 2669000', '+91 9876543210'],
+      details: ['+91 9876543210'],
       color: 'text-green-600'
     },
     {
       icon: MapPin,
       title: 'Address',
-      details: ['Kumaraguru College of Technology', 'Chinnavedampatti, Coimbatore - 641049', 'Tamil Nadu, India'],
+      details: ['Kumaraguru Institutions', 'Chinnavedampatti, Coimbatore - 641049', 'Tamil Nadu, India'],
       color: 'text-purple-600'
     }
   ];
@@ -83,7 +83,7 @@ const Contact: React.FC = () => {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Get in touch with us for any queries. We're here to help!
+              Get in touch with us for any queries.
             </p>
           </motion.div>
         </div>
@@ -138,7 +138,7 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name *
+                      Full Name <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -155,7 +155,7 @@ const Contact: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      Email Address <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -195,7 +195,7 @@ const Contact: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject *
+                    Subject <span className="text-red-500">*</span>
                   </label>
                   <select
                     {...register('subject', { required: 'Subject is required' })}
@@ -217,7 +217,7 @@ const Contact: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
+                    Message <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <textarea

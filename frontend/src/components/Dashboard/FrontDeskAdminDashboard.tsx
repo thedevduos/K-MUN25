@@ -19,7 +19,17 @@ const FrontDeskAdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('checkin');
   const [showCheckInModal, setShowCheckInModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    institution: string;
+    committee: string;
+    portfolio: string;
+    checkedIn: boolean;
+    kitReceived: boolean;
+    phone: string;
+  } | null>(null);
 
   const handleLogout = () => {
     logout();
@@ -84,7 +94,7 @@ const FrontDeskAdminDashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-500 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-[#172d9d] to-[#797dfa] rounded-full flex items-center justify-center">
                 <span className="text-white font-bold">FD</span>
               </div>
               <div>

@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../models/index.js';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const authenticateToken = async (req, res, next) => {
   try {
@@ -14,9 +16,11 @@ export const authenticateToken = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Get user from database to ensure they still exist and are active
-    const user = await User.findByPk(decoded.userId);
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId }
+    });
     if (!user || !user.isActive) {
       return res.status(401).json({
         success: false,
@@ -69,8 +73,10 @@ export const optionalAuth = async (req, res, next) => {
 
     if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findByPk(decoded.userId);
-      
+      const user = await prisma.user.findUnique({
+        where: { id: decoded.userId }
+      });
+
       if (user && user.isActive) {
         req.user = {
           userId: user.id,
@@ -84,7 +90,7 @@ export const optionalAuth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    // Continue without authentication for optional auth
+    // Continue without authentication if token is invalid
     next();
   }
 };

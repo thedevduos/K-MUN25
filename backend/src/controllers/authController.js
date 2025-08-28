@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../config/database.js';
-import { User } from '../models/index.js';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 // Generate KMUN25xxx user ID
 const generateUserId = async () => {
@@ -13,7 +14,7 @@ const generateUserId = async () => {
     userId = `KMUN25${randomNum}`;
     
     // Check if this ID already exists
-    const existingUser = await User.findOne({ where: { userId } });
+    const existingUser = await prisma.user.findFirst({ where: { userId } });
     if (!existingUser) {
       isUnique = true;
     }
@@ -28,7 +29,7 @@ class AuthController {
       const { firstName, lastName, email, password, phone, role = 'PARTICIPANT' } = req.body;
 
       // Check if user already exists
-      const existingUser = await User.findOne({ where: { email } });
+      const existingUser = await prisma.user.findFirst({ where: { email } });
       if (existingUser) {
         return res.status(400).json({
           success: false,
@@ -43,14 +44,16 @@ class AuthController {
       const userId = await generateUserId();
 
       // Create user
-      const user = await User.create({
-        userId,
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-        phone,
-        role,
+      const user = await prisma.user.create({
+        data: {
+          userId,
+          firstName,
+          lastName,
+          email,
+          password: hashedPassword,
+          phone,
+          role,
+        }
       });
 
       // Generate JWT token
@@ -61,7 +64,7 @@ class AuthController {
       );
 
       // Remove password from response
-      const userResponse = { ...user.toJSON() };
+      const userResponse = { ...user };
       delete userResponse.password;
 
       res.status(201).json({
@@ -85,7 +88,7 @@ class AuthController {
       const { email, password } = req.body;
 
       // Find user
-      const user = await User.findOne({ where: { email } });
+      const user = await prisma.user.findFirst({ where: { email } });
       if (!user) {
         return res.status(401).json({
           success: false,
@@ -111,7 +114,10 @@ class AuthController {
       }
 
       // Update last login
-      await user.update({ lastLogin: new Date() });
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { lastLogin: new Date() }
+      });
 
       // Generate JWT token
       const token = jwt.sign(
@@ -121,7 +127,7 @@ class AuthController {
       );
 
       // Remove password from response
-      const userResponse = { ...user.toJSON() };
+      const userResponse = { ...user };
       delete userResponse.password;
 
       res.json({
@@ -142,13 +148,11 @@ class AuthController {
 
   async getProfile(req, res) {
     try {
-      const user = await User.findByPk(req.user.userId, {
-        include: [
-          {
-            model: Registration,
-            as: 'registration',
-          },
-        ],
+      const user = await prisma.user.findUnique({
+        where: { id: req.user.userId },
+        include: {
+          registration: true,
+        },
       });
 
       if (!user) {
@@ -159,7 +163,7 @@ class AuthController {
       }
 
       // Remove password from response
-      const userResponse = { ...user.toJSON() };
+      const userResponse = { ...user };
       delete userResponse.password;
 
       res.json({
@@ -180,7 +184,9 @@ class AuthController {
     try {
       const { firstName, lastName, phone } = req.body;
 
-      const user = await User.findByPk(req.user.userId);
+      const user = await prisma.user.findUnique({
+        where: { id: req.user.userId }
+      });
       if (!user) {
         return res.status(404).json({
           success: false,
@@ -188,14 +194,17 @@ class AuthController {
         });
       }
 
-      await user.update({
-        firstName,
-        lastName,
-        phone,
+      const updatedUser = await prisma.user.update({
+        where: { id: req.user.userId },
+        data: {
+          firstName,
+          lastName,
+          phone,
+        }
       });
 
       // Remove password from response
-      const userResponse = { ...user.toJSON() };
+      const userResponse = { ...updatedUser };
       delete userResponse.password;
 
       res.json({
@@ -217,7 +226,9 @@ class AuthController {
     try {
       const { currentPassword, newPassword } = req.body;
 
-      const user = await User.findByPk(req.user.userId);
+      const user = await prisma.user.findUnique({
+        where: { id: req.user.userId }
+      });
       if (!user) {
         return res.status(404).json({
           success: false,
@@ -238,7 +249,10 @@ class AuthController {
       const hashedNewPassword = await bcrypt.hash(newPassword, 12);
 
       // Update password
-      await user.update({ password: hashedNewPassword });
+      await prisma.user.update({
+        where: { id: req.user.userId },
+        data: { password: hashedNewPassword }
+      });
 
       res.json({
         success: true,

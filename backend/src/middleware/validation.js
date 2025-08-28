@@ -2,7 +2,7 @@ import { validationResult } from 'express-validator';
 
 export const validateRequest = (req, res, next) => {
   const errors = validationResult(req);
-  
+
   if (!errors.isEmpty()) {
     return res.status(400).json({
       success: false,
@@ -14,7 +14,7 @@ export const validateRequest = (req, res, next) => {
       })),
     });
   }
-  
+
   next();
 };
 
@@ -31,7 +31,7 @@ export const validateFileUpload = (allowedTypes = [], maxSize = 10 * 1024 * 1024
 
     Object.keys(req.files).forEach(fieldName => {
       const files = Array.isArray(req.files[fieldName]) ? req.files[fieldName] : [req.files[fieldName]];
-      
+
       files.forEach(file => {
         // Check file type
         if (allowedTypes.length > 0) {
@@ -49,7 +49,7 @@ export const validateFileUpload = (allowedTypes = [], maxSize = 10 * 1024 * 1024
 
         // Check file size
         if (file.size > maxSize) {
-          errors.push(`File size for ${fieldName} exceeds maximum allowed size`);
+          errors.push(`File ${file.name} is too large. Maximum size is ${maxSize / (1024 * 1024)}MB`);
         }
       });
     });

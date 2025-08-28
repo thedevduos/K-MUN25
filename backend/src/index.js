@@ -20,6 +20,8 @@ import notificationRoutes from './routes/notifications.js';
 import popupRoutes from './routes/popups.js';
 import resourceRoutes from './routes/resources.js';
 import activityLogRoutes from './routes/activityLogs.js';
+import dashboardRoutes from './routes/dashboard.js';
+import healthRoutes from './routes/health.js';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler.js';
@@ -57,6 +59,8 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/popups', popupRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/activity-logs', activityLogRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/health', healthRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -100,10 +104,10 @@ app.use(errorHandler);
 async function connectDatabase() {
   try {
     await prisma.$connect();
-    console.log('✅ Database connected successfully');
+    return true;
   } catch (error) {
     console.error('❌ Database connection failed:', error);
-    process.exit(1);
+    return false;
   }
 }
 
@@ -115,9 +119,18 @@ process.on('SIGINT', async () => {
 });
 
 // Start server
-app.listen(PORT, async () => {
-  await connectDatabase();
+console.log('🎯 Starting server...');
+const server = app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 API Documentation: http://localhost:${PORT}`);
   console.log(`🏥 Health Check: http://localhost:${PORT}/api/health`);
+});
+
+// Try to connect to database after server starts
+connectDatabase().then((connected) => {
+  if (connected) {
+    console.log('✅ Server is fully operational with database connection');
+  } else {
+    console.log('⚠️  Server is running without database connection');
+  }
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink } from 'lucide-react';
+import { Play } from 'lucide-react';
 
 const Gallery: React.FC = () => {
   const committees = [
@@ -8,7 +8,6 @@ const Gallery: React.FC = () => {
       id: 1,
       name: 'United Nations Security Council',
       shortName: 'UNSC',
-      logo: '🛡️',
       image: 'https://images.pexels.com/photos/7648047/pexels-photo-7648047.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'The Security Council has primary responsibility for the maintenance of international peace and security.'
     },
@@ -16,7 +15,6 @@ const Gallery: React.FC = () => {
       id: 2,
       name: 'General Assembly First Committee',
       shortName: 'GA1',
-      logo: '🌍',
       image: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Deals with disarmament, global challenges and threats to peace that affect the international community.'
     },
@@ -24,7 +22,6 @@ const Gallery: React.FC = () => {
       id: 3,
       name: 'Economic and Social Council',
       shortName: 'ECOSOC',
-      logo: '💼',
       image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Coordinates economic and social work of the UN and its specialized agencies.'
     },
@@ -32,7 +29,6 @@ const Gallery: React.FC = () => {
       id: 4,
       name: 'Human Rights Council',
       shortName: 'HRC',
-      logo: '⚖️',
       image: 'https://images.pexels.com/photos/159775/library-la-trobe-study-students-159775.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Responsible for promoting and protecting human rights around the globe.'
     },
@@ -40,7 +36,6 @@ const Gallery: React.FC = () => {
       id: 5,
       name: 'International Court of Justice',
       shortName: 'ICJ',
-      logo: '🏛️',
       image: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'The principal judicial organ of the United Nations.'
     },
@@ -48,7 +43,6 @@ const Gallery: React.FC = () => {
       id: 6,
       name: 'World Health Organization',
       shortName: 'WHO',
-      logo: '🏥',
       image: 'https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Directing and coordinating authority on international health within the UN system.'
     },
@@ -56,7 +50,6 @@ const Gallery: React.FC = () => {
       id: 7,
       name: 'General Assembly Second Committee',
       shortName: 'GA2',
-      logo: '🌱',
       image: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Economic and Financial Committee dealing with sustainable development and economic cooperation.'
     },
@@ -64,7 +57,6 @@ const Gallery: React.FC = () => {
       id: 8,
       name: 'General Assembly Third Committee',
       shortName: 'GA3',
-      logo: '👥',
       image: 'https://images.pexels.com/photos/159775/library-la-trobe-study-students-159775.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Social, Humanitarian and Cultural Committee focusing on human rights and social development.'
     },
@@ -72,7 +64,6 @@ const Gallery: React.FC = () => {
       id: 9,
       name: 'General Assembly Fourth Committee',
       shortName: 'GA4',
-      logo: '🏛️',
       image: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Special Political and Decolonization Committee addressing political and decolonization issues.'
     },
@@ -80,7 +71,6 @@ const Gallery: React.FC = () => {
       id: 10,
       name: 'General Assembly Fifth Committee',
       shortName: 'GA5',
-      logo: '💰',
       image: 'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Administrative and Budgetary Committee dealing with UN budget and administrative matters.'
     },
@@ -88,7 +78,6 @@ const Gallery: React.FC = () => {
       id: 11,
       name: 'General Assembly Sixth Committee',
       shortName: 'GA6',
-      logo: '⚖️',
       image: 'https://images.pexels.com/photos/159775/library-la-trobe-study-students-159775.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Legal Committee focusing on international law and legal matters.'
     },
@@ -96,7 +85,6 @@ const Gallery: React.FC = () => {
       id: 12,
       name: 'United Nations Environment Programme',
       shortName: 'UNEP',
-      logo: '🌿',
       image: 'https://images.pexels.com/photos/1595391/pexels-photo-1595391.jpeg?auto=compress&cs=tinysrgb&w=600',
       description: 'Leading global environmental authority setting the global environmental agenda.'
     }
@@ -150,7 +138,7 @@ const Gallery: React.FC = () => {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Gallery</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Explore our committees and relive the highlights from previous K-MUN conferences
+              Explore the highlights from previous Kumaraguru MUNs
             </p>
           </motion.div>
         </div>
@@ -165,11 +153,8 @@ const Gallery: React.FC = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Committees
+              Some Portraits
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover the diverse range of committees at K-MUN 2025
-            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -189,7 +174,6 @@ const Gallery: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 text-white">
-                    <div className="text-3xl mb-2">{committee.logo}</div>
                     <h3 className="text-lg font-bold">{committee.shortName}</h3>
                   </div>
                 </div>
@@ -212,7 +196,7 @@ const Gallery: React.FC = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Conference Highlights
+              Highlights
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Relive the memorable moments from previous K-MUN conferences

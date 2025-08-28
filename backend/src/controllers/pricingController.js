@@ -1,30 +1,28 @@
-import { PricingConfig } from '../models/index.js';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 class PricingController {
   async getCurrentPricing(req, res) {
     try {
-      const pricing = await PricingConfig.findOne({
-        where: { isActive: true },
-        order: [['updatedAt', 'DESC']],
-      });
+      let pricing = await prisma.pricing.findFirst();
 
       if (!pricing) {
-        // Return default pricing if none exists
-        return res.json({
-          success: true,
-          pricing: {
-            internalDelegate: 1399,
-            externalDelegate: 1599,
-            accommodationCharge: 800,
-            currency: 'INR',
-            isActive: true,
+        // Create default pricing if none exists
+        pricing = await prisma.pricing.create({
+          data: {
+            internalDelegate: 2500,
+            externalDelegate: 3500,
+            accommodationCharge: 1500,
+            earlyBirdDiscount: 500,
+            groupDiscount: 200,
           },
         });
       }
 
       res.json({
         success: true,
-        pricing,
+        data: pricing,
       });
     } catch (error) {
       console.error('Get pricing error:', error);
@@ -38,55 +36,51 @@ class PricingController {
 
   async updatePricing(req, res) {
     try {
-      const { internalDelegate, externalDelegate, accommodationCharge } = req.body;
-
-      // Deactivate current pricing
-      await PricingConfig.update(
-        { isActive: false },
-        { where: { isActive: true } }
-      );
-
-      // Create new pricing config
-      const pricing = await PricingConfig.create({
+      const {
         internalDelegate,
         externalDelegate,
         accommodationCharge,
-        currency: 'INR',
-        isActive: true,
-        updatedBy: req.user.userId,
-      });
+        earlyBirdDiscount,
+        groupDiscount
+      } = req.body;
+
+      let pricing = await prisma.pricing.findFirst();
+
+      if (pricing) {
+        // Update existing pricing
+        pricing = await prisma.pricing.update({
+          where: { id: pricing.id },
+          data: {
+            internalDelegate: parseInt(internalDelegate) || 2500,
+            externalDelegate: parseInt(externalDelegate) || 3500,
+            accommodationCharge: parseInt(accommodationCharge) || 1500,
+            earlyBirdDiscount: parseInt(earlyBirdDiscount) || 500,
+            groupDiscount: parseInt(groupDiscount) || 200,
+          },
+        });
+      } else {
+        // Create new pricing
+        pricing = await prisma.pricing.create({
+          data: {
+            internalDelegate: parseInt(internalDelegate) || 2500,
+            externalDelegate: parseInt(externalDelegate) || 3500,
+            accommodationCharge: parseInt(accommodationCharge) || 1500,
+            earlyBirdDiscount: parseInt(earlyBirdDiscount) || 500,
+            groupDiscount: parseInt(groupDiscount) || 200,
+          },
+        });
+      }
 
       res.json({
         success: true,
         message: 'Pricing updated successfully',
-        pricing,
+        data: pricing,
       });
     } catch (error) {
       console.error('Update pricing error:', error);
       res.status(500).json({
         success: false,
         message: 'Failed to update pricing',
-        error: error.message,
-      });
-    }
-  }
-
-  async getPricingHistory(req, res) {
-    try {
-      const pricingHistory = await PricingConfig.findAll({
-        order: [['updatedAt', 'DESC']],
-        limit: 10,
-      });
-
-      res.json({
-        success: true,
-        pricingHistory,
-      });
-    } catch (error) {
-      console.error('Get pricing history error:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Failed to get pricing history',
         error: error.message,
       });
     }
