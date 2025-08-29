@@ -92,13 +92,13 @@ const Home: React.FC = () => {
     <div className="min-h-screen font-poppins">
       <Popup />
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#172d9d] to-[#797dfa] text-white py-20 overflow-hidden">
-        {/* Background Image Provision */}
+      <section className="relative bg-[#172d9d] text-white py-20 overflow-hidden">
+        {/* Background Image */}
         <div className="absolute inset-0">
           <img 
-            src="/hero-background.png" 
-            alt="Hero Background" 
-            className="w-full h-full object-cover opacity-10"
+            src="/dome 2.png" 
+            alt="Temple Dome" 
+            className="absolute right-[-10%] top-0 h-full object-cover"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
@@ -106,40 +106,34 @@ const Home: React.FC = () => {
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
+              className="text-left"
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                KUMARAGURU MODEL UNITED NATIONS
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                KUMARAGURU
+                <br />
+                MODEL UNITED NATIONS
               </h1>
-              <div className="text-2xl md:text-3xl font-bold mb-6">
-                26, 27 & 28 SEPTEMBER 2025
-              </div>
-              <p className="text-lg md:text-xl mb-8 text-white/90">
-                Experience the most prestigious Model United Nations conference in South India. Join delegates from across the globe for three days of intense debate, diplomacy, and international cooperation.
+              
+              <p className="text-2xl md:text-3xl font-bold mb-8 text-[#37c9ee]">
+                26, 27 & 28 SEPTEMBER
               </p>
+              
+              <p className="text-base md:text-lg mb-8 leading-relaxed text-gray-200 max-w-lg">
+                KMUN is the flagship event of the Kumaraguru Model United Nations Society, designed to connect student leaders from institutions across India. Each year, it brings together 300+ young minds to explore innovative solutions for pressing global challenges through dialogue and debate. The first edition in 2023 began as an intra-institutional conference, expanding in 2024 to welcome participants from schools and colleges. Now in its third edition, KMUN 2025 promises an even more enriching and dynamic MUN experience. This year, we aim to elevate discussions while broadening our reach nationwide, strengthening the impact and presence of our society.
+              </p>
+              
               <Link
                 to="/register"
-                className="inline-block bg-white text-[#172d9d] px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
+                className="inline-block bg-[#37c9ee] text-[#172d9d] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[#2bb8d9] transition-colors"
                 onClick={() => toast.success('Welcome to K-MUN 2025 Registration!')}
               >
                 REGISTER NOW
               </Link>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              {/* Building Silhouette */}
-              <div className="w-full h-96 bg-[#37c9ee]/30 rounded-lg flex items-center justify-center">
-                <div className="text-8xl text-[#37c9ee]/50">🏛️</div>
-              </div>
             </motion.div>
           </div>
         </div>
