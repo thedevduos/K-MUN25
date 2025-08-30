@@ -1,7 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { PrismaClient } from '@prisma/client';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Load environment variables from root .env file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+
+import { connectDatabase, disconnectDatabase } from './config/database.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
@@ -26,16 +34,14 @@ import healthRoutes from './routes/health.js';
 // Import middleware
 import { errorHandler } from './middleware/errorHandler.js';
 
-dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Initialize Prisma Client
-const prisma = new PrismaClient();
-
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -67,7 +73,8 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    database: 'Connected'
+    database: 'Connected',
+    environment: process.env.NODE_ENV || 'development'
   });
 });
 
@@ -76,6 +83,8 @@ app.get('/', (req, res) => {
   res.json({ 
     message: 'Kumaraguru MUN 2025 API Server',
     version: '1.0.0',
+    status: 'Running',
+    database: process.env.DATABASE_URL ? 'Configured' : 'Not configured',
     endpoints: {
       auth: '/api/auth',
       registrations: '/api/registrations',
@@ -92,7 +101,9 @@ app.get('/', (req, res) => {
       notifications: '/api/notifications',
       popups: '/api/popups',
       resources: '/api/resources',
-      activityLogs: '/api/activity-logs'
+      activityLogs: '/api/activity-logs',
+      dashboard: '/api/dashboard',
+      health: '/api/health'
     }
   });
 });
@@ -100,37 +111,40 @@ app.get('/', (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// Database connection test
-async function connectDatabase() {
-  try {
-    await prisma.$connect();
-    return true;
-  } catch (error) {
-    console.error('❌ Database connection failed:', error);
-    return false;
-  }
-}
-
 // Graceful shutdown
 process.on('SIGINT', async () => {
   console.log('\n🔄 Shutting down gracefully...');
-  await prisma.$disconnect();
+  await disconnectDatabase();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  console.log('\n🔄 Shutting down gracefully...');
+  await disconnectDatabase();
   process.exit(0);
 });
 
 // Start server
-console.log('🎯 Starting server...');
-const server = app.listen(PORT, () => {
+console.log('🎯 Starting Kumaraguru MUN 2025 API Server...');
+console.log('📊 Environment:', process.env.NODE_ENV || 'development');
+console.log('🗄️  Database:', process.env.DATABASE_URL ? 'Configured' : 'Not configured');
+
+const server = app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 API Documentation: http://localhost:${PORT}`);
   console.log(`🏥 Health Check: http://localhost:${PORT}/api/health`);
-});
-
-// Try to connect to database after server starts
-connectDatabase().then((connected) => {
+  
+  // Try to connect to database
+  const connected = await connectDatabase();
   if (connected) {
     console.log('✅ Server is fully operational with database connection');
   } else {
-    console.log('⚠️  Server is running without database connection');
+    console.log('⚠️  Server is running but database connection failed');
+    console.log('💡 Please check your PostgreSQL server and database configuration');
   }
+});
+
+// Handle server errors
+server.on('error', (error) => {
+  console.error('❌ Server error:', error);
 });
