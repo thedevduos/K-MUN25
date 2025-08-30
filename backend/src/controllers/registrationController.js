@@ -49,7 +49,7 @@ class RegistrationController {
           password: hashedPassword,
           phone,
           role: 'PARTICIPANT',
-        }
+        },
       });
 
       // Create registration
@@ -75,7 +75,7 @@ class RegistrationController {
           portfolioPreference3,
           idDocument: req.files.idDocument[0].path,
           munResume: req.files.munResume ? req.files.munResume[0].path : null,
-        }
+        },
       });
 
       // Send registration confirmation email
@@ -159,7 +159,6 @@ class RegistrationController {
         }),
         prisma.registration.count({ where }),
       ]);
-      });
 
       res.json({
         success: true,
