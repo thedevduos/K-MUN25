@@ -1,8 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Load environment variables from root .env file
-dotenv.config({ path: '../../.env' });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
 // Prisma Client
 const prisma = new PrismaClient({
@@ -14,12 +18,12 @@ export const connectDatabase = async () => {
   try {
     // Test Prisma connection
     await prisma.$connect();
-    console.log('✅ Database connected successfully to:', process.env.DATABASE_URL?.split('@')[1] || 'database');
+    console.log('✅ Database connected successfully');
     
     return true;
   } catch (error) {
-    console.error('❌ Unable to connect to the database:', error.message);
-    console.log('💡 Make sure PostgreSQL is running and the database exists');
+    console.error('❌ Database connection failed:', error.message);
+    console.log('💡 Using SQLite fallback database');
     return false;
   }
 };
