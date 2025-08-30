@@ -137,29 +137,39 @@ class RegistrationController {
         ];
       }
 
-      const { count, rows } = await Registration.findAndCountAll({
-        where,
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: ['id', 'firstName', 'lastName', 'email', 'phone'],
+      const [registrations, total] = await Promise.all([
+        prisma.registration.findMany({
+          where,
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                phone: true,
+              },
+            },
           },
-        ],
-        limit: parseInt(limit),
-        offset,
-        order: [[sortBy, sortOrder]],
+          skip: offset,
+          take: parseInt(limit),
+          orderBy: {
+            [sortBy]: sortOrder,
+          },
+        }),
+        prisma.registration.count({ where }),
+      ]);
       });
 
       res.json({
         success: true,
         data: {
-          registrations: rows,
+          registrations,
           pagination: {
-            total: count,
+            total,
             page: parseInt(page),
             limit: parseInt(limit),
-            totalPages: Math.ceil(count / limit),
+            totalPages: Math.ceil(total / parseInt(limit)),
           },
         },
       });
@@ -177,14 +187,19 @@ class RegistrationController {
     try {
       const { id } = req.params;
 
-      const registration = await Registration.findByPk(id, {
-        include: [
-          {
-            model: User,
-            as: 'user',
-            attributes: ['id', 'firstName', 'lastName', 'email', 'phone'],
+      const registration = await prisma.registration.findUnique({
+        where: { id },
+        include: {
+          user: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              phone: true,
+            },
           },
-        ],
+        },
       });
 
       if (!registration) {
@@ -213,8 +228,9 @@ class RegistrationController {
       const { id } = req.params;
       const { status, allocatedCommittee, allocatedPortfolio } = req.body;
 
-      const registration = await Registration.findByPk(id, {
-        include: [{ model: User, as: 'user' }],
+      const registration = await prisma.registration.findUnique({
+        where: { id },
+        include: { user: true },
       });
 
       if (!registration) {
@@ -224,15 +240,19 @@ class RegistrationController {
         });
       }
 
-      await registration.update({
-        status,
-        allocatedCommittee,
-        allocatedPortfolio,
+      const updatedRegistration = await prisma.registration.update({
+        where: { id },
+        data: {
+          status,
+          allocatedCommittee,
+          allocatedPortfolio,
+        },
+        include: { user: true },
       });
 
       // Send allocation email if committee is allocated
       if (allocatedCommittee && allocatedPortfolio) {
-        await emailService.sendCommitteeAllocation(registration.email, {
+        await emailService.sendCommitteeAllocation(registration.user.email, {
           firstName: registration.firstName,
           lastName: registration.lastName,
           committee: allocatedCommittee,
@@ -243,7 +263,7 @@ class RegistrationController {
       res.json({
         success: true,
         message: 'Registration updated successfully',
-        registration,
+        registration: updatedRegistration,
       });
     } catch (error) {
       console.error('Update registration error:', error);
@@ -259,7 +279,10 @@ class RegistrationController {
     try {
       const { id } = req.params;
 
-      const registration = await Registration.findByPk(id);
+      const registration = await prisma.registration.findUnique({
+        where: { id },
+      });
+      
       if (!registration) {
         return res.status(404).json({
           success: false,
@@ -275,7 +298,9 @@ class RegistrationController {
         await fileUploadService.deleteFile(registration.munResume);
       }
 
-      await registration.destroy();
+      await prisma.registration.delete({
+        where: { id },
+      });
 
       res.json({
         success: true,

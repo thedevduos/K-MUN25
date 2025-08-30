@@ -26,20 +26,8 @@ export const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Sequelize errors
-  if (err.name === 'SequelizeValidationError') {
-    return res.status(400).json({
-      success: false,
-      message: 'Validation error',
-      errors: err.errors.map(error => ({
-        field: error.path,
-        message: error.message,
-        value: error.value,
-      })),
-    });
-  }
-
-  if (err.name === 'SequelizeUniqueConstraintError') {
+  // Prisma errors
+  if (err.code === 'P2002') {
     return res.status(400).json({
       success: false,
       message: 'Duplicate entry',
@@ -47,11 +35,19 @@ export const errorHandler = (err, req, res, next) => {
     });
   }
 
-  if (err.name === 'SequelizeForeignKeyConstraintError') {
+  if (err.code === 'P2003') {
     return res.status(400).json({
       success: false,
       message: 'Invalid reference',
       error: 'Referenced record does not exist',
+    });
+  }
+
+  if (err.code === 'P2025') {
+    return res.status(404).json({
+      success: false,
+      message: 'Record not found',
+      error: 'The requested record does not exist',
     });
   }
 

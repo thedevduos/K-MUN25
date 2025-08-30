@@ -80,6 +80,8 @@ model Registration {
   status      RegistrationStatus @default(PENDING)
   paymentStatus PaymentStatus   @default(PENDING)
   amount      Float
+  allocatedCommittee String?
+  allocatedPortfolio String?
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
   
